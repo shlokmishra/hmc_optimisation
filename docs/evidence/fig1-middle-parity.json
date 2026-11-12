@@ -1,0 +1,238 @@
+{
+  "status": "passed",
+  "case": "fig1-middle",
+  "iterations": 1000000,
+  "author_commit": "37962b3074a5c9c6248ef062ffa665a2177a1301",
+  "panel_selections": [
+    {
+      "kind": "panel_selection",
+      "original_alphas": [
+        0.01,
+        0.1,
+        1
+      ],
+      "alphas": [
+        0.01
+      ]
+    }
+  ],
+  "comparisons": [
+    {
+      "kind": "arrays",
+      "name": "x0",
+      "shape": [
+        100
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "A",
+      "shape": [
+        100,
+        100
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "alphas",
+      "shape": [
+        1
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "losses_cnag_all",
+      "shape": [
+        5,
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "losses_rhgd_all",
+      "shape": [
+        5,
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "lcnag",
+      "shape": [
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "lrhgd",
+      "shape": [
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "lgd",
+      "shape": [
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "lnag",
+      "shape": [
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "mean_cnag",
+      "shape": [
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "lower_cnag",
+      "shape": [
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "upper_cnag",
+      "shape": [
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "mean_rhgd",
+      "shape": [
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "lower_rhgd",
+      "shape": [
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "upper_rhgd",
+      "shape": [
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "loss_curve",
+      "shape": [
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "iters",
+      "shape": [
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "curves",
+      "name": "axes0_line0_x",
+      "shape": [
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "curves",
+      "name": "axes0_line0_y",
+      "shape": [
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "curves",
+      "name": "axes0_line1_x",
+      "shape": [
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "curves",
+      "name": "axes0_line1_y",
+      "shape": [
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "curves",
+      "name": "axes0_line2_x",
+      "shape": [
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "curves",
+      "name": "axes0_line2_y",
+      "shape": [
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "curves",
+      "name": "axes0_line3_x",
+      "shape": [
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "curves",
+      "name": "axes0_line3_y",
+      "shape": [
+        1000000
+      ],
+      "exact_equal": true
+    }
+  ],
+  "source_sha256": "4120f84753b3bef6c07d45f9adb5cec2b90f80afc2fa3774b59367c46abc5d3c",
+  "verification_script_sha256": "e00a8a3a0befbb252a06d718ba8ab1b86ca76fb20c65911103ab420667af57bb",
+  "scope": "exact equality on this environment; published-figure agreement separate",
+  "scalars": {
+    "dim": 100,
+    "kappa": 10000000.0,
+    "num_iters": 1000000,
+    "eta": 0.002,
+    "h": 0.044721359549995794,
+    "alpha": 0.01,
+    "i": 4
+  },
+  "elapsed_seconds": 222.30791576206684,
+  "warnings": []
+}

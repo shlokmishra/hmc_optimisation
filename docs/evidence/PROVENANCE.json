@@ -1,0 +1,66 @@
+{
+  "copied_on": "2026-11-12",
+  "purpose": "Inherited evidence copied without rerunning optimizers",
+  "files": [
+    {
+      "source": "results/reproduction/fig1-left-19769000/author_parity.json",
+      "copy": "docs/evidence/fig1-left-parity.json",
+      "bytes": 3947,
+      "sha256": "503129acc75466bfb389be546e3e7870895cfef8601532fc76ecf58011181387"
+    },
+    {
+      "source": "results/reproduction/fig1-middle-19770301/author_parity.json",
+      "copy": "docs/evidence/fig1-middle-parity.json",
+      "bytes": 4174,
+      "sha256": "6f20edc985a866720867e74c1395bb4cef879b51b9e5b1ac1885202e05c1a958"
+    },
+    {
+      "source": "results/reproduction/fig1-right-19772099/author_parity.json",
+      "copy": "docs/evidence/fig1-right-parity.json",
+      "bytes": 4234,
+      "sha256": "da6c38ef17c2d82b3dbb0ea1900c26dcd08de1c1a1486533d5f361cce7f2f0e4"
+    },
+    {
+      "source": "results/reproduction/fig2-left-19768992/author_parity.json",
+      "copy": "docs/evidence/fig2-left-parity.json",
+      "bytes": 5008,
+      "sha256": "cd79ce9c49f39d62fbb63f84eddc58c3bc9c34e93c5736911233204295290d59"
+    },
+    {
+      "source": "results/reproduction/fig2-right-19734521/author_parity.json",
+      "copy": "docs/evidence/fig2-right-parity.json",
+      "bytes": 3972,
+      "sha256": "5016fe52d7d0b9f06992937fd6ced12f10eee881f6c51918aabec33bb60d0fe7"
+    },
+    {
+      "source": "results/studies/power_reset_spectral_comparison/main-19819633/analysis/summary.json",
+      "copy": "docs/evidence/spectral-summary.json",
+      "bytes": 312464,
+      "sha256": "108caa3226ca28db54adb1cf2188cf97801e4709b0c6b071bf35b00ae3f9cf7a"
+    },
+    {
+      "source": "study/B/results/main-19819175/summary.json",
+      "copy": "docs/evidence/power-reset-summary.json",
+      "bytes": 139014,
+      "sha256": "e3514b85b69d5a8a294ba7b5dc09fa321b43b0aff63fbd4e9d193c01c07b2ed1"
+    },
+    {
+      "source": "study/B/results/main-19819175/verification.json",
+      "copy": "docs/evidence/power-reset-verification.json",
+      "bytes": 844,
+      "sha256": "4b26645bc82a742015a194153c08c50e6776ccee05f0d99c7a4b0f0449acf953"
+    },
+    {
+      "source": "results/studies/power_reset_spectral_comparison/validation.json",
+      "copy": "docs/evidence/spectral-validation.json",
+      "bytes": 8056,
+      "sha256": "3dfd5fb914be716be8e74697f402e1406eaff3e9082e8864693d33d091d760fe"
+    },
+    {
+      "source": "results/reproduction/fig2-right-19734521/figure-01.png",
+      "copy": "docs/evidence/rhgd-logistic-replay.png",
+      "bytes": 120469,
+      "sha256": "c145f575f0949e78de7c617ca3a6331f9c5eda6c7c5dedc4d04f19e466fc63d3"
+    }
+  ]
+}

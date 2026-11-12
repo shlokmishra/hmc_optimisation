@@ -1,0 +1,18 @@
+{
+  "study_id": "candidate-b-power-v1-20260922",
+  "trigger": "armed_before_step and dot(g_new,v)>=0; arm on P<0; cap regardless of arming",
+  "segment_cap": 65536,
+  "gradient_budgets": {"exact": 1000000, "misspecified": 1000000, "weak": 20000, "logistic": 5000},
+  "seeds": [0,1,2,3,4],
+  "targets": [1e-6,1e-8,1e-10,1e-12],
+  "timing_replicates": 3,
+  "timing_horizon": "through diagnostic sustained 1e-10 crossing, or full budget if censored",
+  "meaningful_gain": "at least 20% lower median gradient work AND median optimizer wall time at 1e-8 versus RHGD; report AGD/CAGD separately; no >25% regression on exact or weak",
+  "diagnostic_prefix_states": 20000,
+  "stress_cases": "mechanism diagnostics only: diagonal [5e-5,5,500] with x=[1,1,0] and slow-only [1,0,0]; 32 logspaced eigenvalues 5e-5 to 500 with x=ones; 20000 updates each",
+  "cache_policy": "literal gradient calls; no gradient caching for any method",
+  "no_variants": "no rollback, deadband, added line search, Bernoulli fallback, A or C hybrid",
+  "account": "132674288899",
+  "partition": "short",
+  "allocation_ceiling": "one CPU; probe 2 minutes plus main 20 minutes; no automatic resubmission"
+}

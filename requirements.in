@@ -1,0 +1,13 @@
+# Direct dependencies. requirements.txt records the tested, resolved versions.
+numpy
+scipy
+matplotlib
+pandas
+PyYAML
+tqdm
+threadpoolctl
+
+# Development and notebook support.
+pytest
+ruff
+ipykernel

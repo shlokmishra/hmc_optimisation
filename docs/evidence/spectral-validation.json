@@ -1,0 +1,315 @@
+{
+  "passed": true,
+  "rows": [
+    {
+      "spectrum": "paper",
+      "method": "B",
+      "seed": null,
+      "updates": 256,
+      "cached_uncached_exact": true,
+      "repeat_exact": true,
+      "source_or_prior_B_exact": true,
+      "primary_gradients": 512,
+      "literal_calls": 512
+    },
+    {
+      "spectrum": "paper",
+      "method": "AR_AGD",
+      "seed": null,
+      "updates": 256,
+      "cached_uncached_exact": true,
+      "repeat_exact": true,
+      "source_or_prior_B_exact": null,
+      "primary_gradients": 256,
+      "literal_calls": 256
+    },
+    {
+      "spectrum": "paper",
+      "method": "AGD",
+      "seed": null,
+      "updates": 256,
+      "cached_uncached_exact": true,
+      "repeat_exact": true,
+      "source_or_prior_B_exact": true,
+      "primary_gradients": 256,
+      "literal_calls": 256
+    },
+    {
+      "spectrum": "paper",
+      "method": "CAGD",
+      "seed": 31001,
+      "updates": 256,
+      "cached_uncached_exact": true,
+      "repeat_exact": true,
+      "source_or_prior_B_exact": true,
+      "primary_gradients": 256,
+      "literal_calls": 512
+    },
+    {
+      "spectrum": "paper",
+      "method": "CAGD",
+      "seed": 31002,
+      "updates": 256,
+      "cached_uncached_exact": true,
+      "repeat_exact": true,
+      "source_or_prior_B_exact": true,
+      "primary_gradients": 256,
+      "literal_calls": 512
+    },
+    {
+      "spectrum": "paper",
+      "method": "CAGD",
+      "seed": 31003,
+      "updates": 256,
+      "cached_uncached_exact": true,
+      "repeat_exact": true,
+      "source_or_prior_B_exact": true,
+      "primary_gradients": 256,
+      "literal_calls": 512
+    },
+    {
+      "spectrum": "paper",
+      "method": "CAGD",
+      "seed": 31004,
+      "updates": 256,
+      "cached_uncached_exact": true,
+      "repeat_exact": true,
+      "source_or_prior_B_exact": true,
+      "primary_gradients": 256,
+      "literal_calls": 512
+    },
+    {
+      "spectrum": "paper",
+      "method": "CAGD",
+      "seed": 31005,
+      "updates": 256,
+      "cached_uncached_exact": true,
+      "repeat_exact": true,
+      "source_or_prior_B_exact": true,
+      "primary_gradients": 256,
+      "literal_calls": 512
+    },
+    {
+      "spectrum": "paper",
+      "method": "RHGD",
+      "seed": 41001,
+      "updates": 256,
+      "cached_uncached_exact": true,
+      "repeat_exact": true,
+      "source_or_prior_B_exact": true,
+      "primary_gradients": 512,
+      "literal_calls": 512
+    },
+    {
+      "spectrum": "paper",
+      "method": "RHGD",
+      "seed": 41002,
+      "updates": 256,
+      "cached_uncached_exact": true,
+      "repeat_exact": true,
+      "source_or_prior_B_exact": true,
+      "primary_gradients": 512,
+      "literal_calls": 512
+    },
+    {
+      "spectrum": "paper",
+      "method": "RHGD",
+      "seed": 41003,
+      "updates": 256,
+      "cached_uncached_exact": true,
+      "repeat_exact": true,
+      "source_or_prior_B_exact": true,
+      "primary_gradients": 512,
+      "literal_calls": 512
+    },
+    {
+      "spectrum": "paper",
+      "method": "RHGD",
+      "seed": 41004,
+      "updates": 256,
+      "cached_uncached_exact": true,
+      "repeat_exact": true,
+      "source_or_prior_B_exact": true,
+      "primary_gradients": 512,
+      "literal_calls": 512
+    },
+    {
+      "spectrum": "paper",
+      "method": "RHGD",
+      "seed": 41005,
+      "updates": 256,
+      "cached_uncached_exact": true,
+      "repeat_exact": true,
+      "source_or_prior_B_exact": true,
+      "primary_gradients": 512,
+      "literal_calls": 512
+    },
+    {
+      "spectrum": "log",
+      "method": "B",
+      "seed": null,
+      "updates": 256,
+      "cached_uncached_exact": true,
+      "repeat_exact": true,
+      "source_or_prior_B_exact": true,
+      "primary_gradients": 512,
+      "literal_calls": 512
+    },
+    {
+      "spectrum": "log",
+      "method": "AR_AGD",
+      "seed": null,
+      "updates": 256,
+      "cached_uncached_exact": true,
+      "repeat_exact": true,
+      "source_or_prior_B_exact": null,
+      "primary_gradients": 256,
+      "literal_calls": 256
+    },
+    {
+      "spectrum": "log",
+      "method": "AGD",
+      "seed": null,
+      "updates": 256,
+      "cached_uncached_exact": true,
+      "repeat_exact": true,
+      "source_or_prior_B_exact": true,
+      "primary_gradients": 256,
+      "literal_calls": 256
+    },
+    {
+      "spectrum": "log",
+      "method": "CAGD",
+      "seed": 31001,
+      "updates": 256,
+      "cached_uncached_exact": true,
+      "repeat_exact": true,
+      "source_or_prior_B_exact": true,
+      "primary_gradients": 256,
+      "literal_calls": 512
+    },
+    {
+      "spectrum": "log",
+      "method": "CAGD",
+      "seed": 31002,
+      "updates": 256,
+      "cached_uncached_exact": true,
+      "repeat_exact": true,
+      "source_or_prior_B_exact": true,
+      "primary_gradients": 256,
+      "literal_calls": 512
+    },
+    {
+      "spectrum": "log",
+      "method": "CAGD",
+      "seed": 31003,
+      "updates": 256,
+      "cached_uncached_exact": true,
+      "repeat_exact": true,
+      "source_or_prior_B_exact": true,
+      "primary_gradients": 256,
+      "literal_calls": 512
+    },
+    {
+      "spectrum": "log",
+      "method": "CAGD",
+      "seed": 31004,
+      "updates": 256,
+      "cached_uncached_exact": true,
+      "repeat_exact": true,
+      "source_or_prior_B_exact": true,
+      "primary_gradients": 256,
+      "literal_calls": 512
+    },
+    {
+      "spectrum": "log",
+      "method": "CAGD",
+      "seed": 31005,
+      "updates": 256,
+      "cached_uncached_exact": true,
+      "repeat_exact": true,
+      "source_or_prior_B_exact": true,
+      "primary_gradients": 256,
+      "literal_calls": 512
+    },
+    {
+      "spectrum": "log",
+      "method": "RHGD",
+      "seed": 41001,
+      "updates": 256,
+      "cached_uncached_exact": true,
+      "repeat_exact": true,
+      "source_or_prior_B_exact": true,
+      "primary_gradients": 512,
+      "literal_calls": 512
+    },
+    {
+      "spectrum": "log",
+      "method": "RHGD",
+      "seed": 41002,
+      "updates": 256,
+      "cached_uncached_exact": true,
+      "repeat_exact": true,
+      "source_or_prior_B_exact": true,
+      "primary_gradients": 512,
+      "literal_calls": 512
+    },
+    {
+      "spectrum": "log",
+      "method": "RHGD",
+      "seed": 41003,
+      "updates": 256,
+      "cached_uncached_exact": true,
+      "repeat_exact": true,
+      "source_or_prior_B_exact": true,
+      "primary_gradients": 512,
+      "literal_calls": 512
+    },
+    {
+      "spectrum": "log",
+      "method": "RHGD",
+      "seed": 41004,
+      "updates": 256,
+      "cached_uncached_exact": true,
+      "repeat_exact": true,
+      "source_or_prior_B_exact": true,
+      "primary_gradients": 512,
+      "literal_calls": 512
+    },
+    {
+      "spectrum": "log",
+      "method": "RHGD",
+      "seed": 41005,
+      "updates": 256,
+      "cached_uncached_exact": true,
+      "repeat_exact": true,
+      "source_or_prior_B_exact": true,
+      "primary_gradients": 512,
+      "literal_calls": 512
+    }
+  ],
+  "problem_validation": {
+    "paper": {
+      "alpha_computed": 5.0000000027188764e-05,
+      "L_computed": 499.99999999999983,
+      "kappa_computed": 9999999.994562244,
+      "slow_projection": 0.6347233019328173,
+      "initial_slow_loss": 1.007184175588928e-05,
+      "symmetry_residual_max": 2.842170943040401e-14,
+      "orthogonality_residual_max": 1.9984014443252818e-15,
+      "spectral_reconstruction_max": 5.400124791776761e-13
+    },
+    "log": {
+      "alpha_computed": 5.0000000008373106e-05,
+      "L_computed": 500.0000000000003,
+      "kappa_computed": 9999999.998325385,
+      "slow_projection": 0.6347233027715493,
+      "initial_slow_loss": 1.0071841778717248e-05,
+      "symmetry_residual_max": 7.105427357601002e-15,
+      "orthogonality_residual_max": 2.7755575615628914e-15,
+      "spectral_reconstruction_max": 1.4210854715202004e-13
+    }
+  },
+  "B_source_sha256": "12690622465189339b0203bce4d71fe8fa4c69b0778fd16f9dc735f4e914889c",
+  "notes": "AR analytic tests are recorded separately in pytest receipt."
+}

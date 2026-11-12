@@ -1,0 +1,292 @@
+{
+  "status": "passed",
+  "case": "fig2-left",
+  "iterations": 1000,
+  "author_commit": "37962b3074a5c9c6248ef062ffa665a2177a1301",
+  "comparisons": [
+    {
+      "kind": "arrays",
+      "name": "x0",
+      "shape": [
+        100
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "A",
+      "shape": [
+        500,
+        100
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "true_x",
+      "shape": [
+        100
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "b",
+      "shape": [
+        500
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "losses_cnag_all",
+      "shape": [
+        5,
+        1000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "losses_rhgd_all",
+      "shape": [
+        5,
+        1000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "losses_rhgd1_all",
+      "shape": [
+        5,
+        1000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "lrhgd",
+      "shape": [
+        1000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "lrhgd1",
+      "shape": [
+        1000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "lcnag",
+      "shape": [
+        1000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "lgd",
+      "shape": [
+        1000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "lnag",
+      "shape": [
+        1000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "mean_cnag",
+      "shape": [
+        1000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "lower_cnag",
+      "shape": [
+        1000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "upper_cnag",
+      "shape": [
+        1000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "mean_rhgd",
+      "shape": [
+        1000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "lower_rhgd",
+      "shape": [
+        1000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "upper_rhgd",
+      "shape": [
+        1000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "mean_rhgd1",
+      "shape": [
+        1000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "lower_rhgd1",
+      "shape": [
+        1000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "upper_rhgd1",
+      "shape": [
+        1000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "loss_curve",
+      "shape": [
+        1000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "iters",
+      "shape": [
+        1000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "curves",
+      "name": "axes0_line0_x",
+      "shape": [
+        1000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "curves",
+      "name": "axes0_line0_y",
+      "shape": [
+        1000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "curves",
+      "name": "axes0_line1_x",
+      "shape": [
+        1000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "curves",
+      "name": "axes0_line1_y",
+      "shape": [
+        1000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "curves",
+      "name": "axes0_line2_x",
+      "shape": [
+        1000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "curves",
+      "name": "axes0_line2_y",
+      "shape": [
+        1000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "curves",
+      "name": "axes0_line3_x",
+      "shape": [
+        1000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "curves",
+      "name": "axes0_line3_y",
+      "shape": [
+        1000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "curves",
+      "name": "axes0_line4_x",
+      "shape": [
+        1000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "curves",
+      "name": "axes0_line4_y",
+      "shape": [
+        1000
+      ],
+      "exact_equal": true
+    }
+  ],
+  "source_sha256": "876c478dd13e991b76908ad20c34073dc5fc6d9e6757947bb54e2b412e269feb",
+  "verification_script_sha256": "34f8f230226e27993deddf3d122d10a4eaef8cacb6aa8df8df7b13b26495c814",
+  "scope": "exact equality on this environment; published-figure agreement separate",
+  "scalars": {
+    "dim": 100,
+    "num_samples": 500,
+    "num_iters": 1000,
+    "lambda_reg": 0.0001,
+    "alpha": 0.0001,
+    "eta": 1,
+    "h": 1.0,
+    "i": 4,
+    "f_star": 0.020236446186274216
+  },
+  "elapsed_seconds": 4.267566408962011,
+  "warnings": []
+}

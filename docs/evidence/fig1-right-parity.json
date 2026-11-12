@@ -1,0 +1,230 @@
+{
+  "status": "passed",
+  "case": "fig1-right",
+  "iterations": 1000000,
+  "author_commit": "37962b3074a5c9c6248ef062ffa665a2177a1301",
+  "panel_selections": [
+    {
+      "kind": "user_iteration_override",
+      "original_num_iters": 10000,
+      "num_iters": 1000000
+    }
+  ],
+  "mode": "user_requested_parameters",
+  "comparisons": [
+    {
+      "kind": "arrays",
+      "name": "x0",
+      "shape": [
+        100
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "A",
+      "shape": [
+        100,
+        100
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "losses_cnag_all",
+      "shape": [
+        5,
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "losses_rhgd_all",
+      "shape": [
+        5,
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "lcnag",
+      "shape": [
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "lrhgd",
+      "shape": [
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "lgd",
+      "shape": [
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "lnag",
+      "shape": [
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "mean_cnag",
+      "shape": [
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "lower_cnag",
+      "shape": [
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "upper_cnag",
+      "shape": [
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "mean_rhgd",
+      "shape": [
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "lower_rhgd",
+      "shape": [
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "upper_rhgd",
+      "shape": [
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "loss_curve",
+      "shape": [
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "iters",
+      "shape": [
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "curves",
+      "name": "axes0_line0_x",
+      "shape": [
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "curves",
+      "name": "axes0_line0_y",
+      "shape": [
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "curves",
+      "name": "axes0_line1_x",
+      "shape": [
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "curves",
+      "name": "axes0_line1_y",
+      "shape": [
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "curves",
+      "name": "axes0_line2_x",
+      "shape": [
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "curves",
+      "name": "axes0_line2_y",
+      "shape": [
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "curves",
+      "name": "axes0_line3_x",
+      "shape": [
+        1000000
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "curves",
+      "name": "axes0_line3_y",
+      "shape": [
+        1000000
+      ],
+      "exact_equal": true
+    }
+  ],
+  "source_sha256": "aa9642af207be9504b0b79a7ea90baa878cb5e2f26e3992ce4ba80a9e2df9f45",
+  "verification_script_sha256": "9efd7712a3a6a84e0e8b7d0c5127476d78b189e6d534a8545fda1e4a6650dcc6",
+  "scope": "exact equality on this environment; published-figure agreement separate",
+  "scalars": {
+    "dim": 100,
+    "num_iters": 1000000,
+    "lamda_max": 500,
+    "L": 500,
+    "eta": 0.002,
+    "h": 0.044721359549995794,
+    "i": 4
+  },
+  "elapsed_seconds": 275.725285012275,
+  "warnings": [
+    "invalid value encountered in log10",
+    "overflow encountered in power",
+    "overflow encountered in exp",
+    "Creating legend with loc=\"best\" can be slow with large amounts of data."
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "purpose": "software_smoke_not_research_evidence",
+  "dimension": 8,
+  "mu": 0.00005,
+  "L": 500.0,
+  "gradient_budget": 200,
+  "seed": 605,
+  "methods": ["AGD", "AR_AGD", "CAGD", "RHGD", "B"]
+}

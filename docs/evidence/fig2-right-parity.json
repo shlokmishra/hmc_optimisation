@@ -1,0 +1,232 @@
+{
+  "status": "passed",
+  "case": "fig2-right",
+  "iterations": 200,
+  "author_commit": "37962b3074a5c9c6248ef062ffa665a2177a1301",
+  "comparisons": [
+    {
+      "kind": "arrays",
+      "name": "x0",
+      "shape": [
+        100
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "A",
+      "shape": [
+        500,
+        100
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "true_x",
+      "shape": [
+        100
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "b",
+      "shape": [
+        500
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "losses_cnag_all",
+      "shape": [
+        5,
+        200
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "losses_rhgd_all",
+      "shape": [
+        5,
+        200
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "lrhgd",
+      "shape": [
+        200
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "lcnag",
+      "shape": [
+        200
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "lgd",
+      "shape": [
+        200
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "lnag",
+      "shape": [
+        200
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "mean_cnag",
+      "shape": [
+        200
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "lower_cnag",
+      "shape": [
+        200
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "upper_cnag",
+      "shape": [
+        200
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "mean_rhgd",
+      "shape": [
+        200
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "lower_rhgd",
+      "shape": [
+        200
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "upper_rhgd",
+      "shape": [
+        200
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "loss_curve",
+      "shape": [
+        200
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "arrays",
+      "name": "iters",
+      "shape": [
+        200
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "curves",
+      "name": "axes0_line0_x",
+      "shape": [
+        200
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "curves",
+      "name": "axes0_line0_y",
+      "shape": [
+        200
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "curves",
+      "name": "axes0_line1_x",
+      "shape": [
+        200
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "curves",
+      "name": "axes0_line1_y",
+      "shape": [
+        200
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "curves",
+      "name": "axes0_line2_x",
+      "shape": [
+        200
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "curves",
+      "name": "axes0_line2_y",
+      "shape": [
+        200
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "curves",
+      "name": "axes0_line3_x",
+      "shape": [
+        200
+      ],
+      "exact_equal": true
+    },
+    {
+      "kind": "curves",
+      "name": "axes0_line3_y",
+      "shape": [
+        200
+      ],
+      "exact_equal": true
+    }
+  ],
+  "source_sha256": "b2410fefc92b91f06d609df30c55126176b1c47f35fbede7997665642c401175",
+  "verification_script_sha256": "34f8f230226e27993deddf3d122d10a4eaef8cacb6aa8df8df7b13b26495c814",
+  "scope": "exact equality on this environment; published-figure agreement separate",
+  "scalars": {
+    "dim": 100,
+    "num_samples": 500,
+    "num_iters": 200,
+    "eta": 1,
+    "h": 1.0,
+    "i": 4
+  },
+  "elapsed_seconds": 2.3072986882179976,
+  "warnings": []
+}

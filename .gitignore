@@ -1,0 +1,39 @@
+# Local environments and Python/tool caches.
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+.coverage
+htmlcov/
+build/
+dist/
+
+# Local configuration and generated research artifacts.
+.env
+.env.*
+!.env.example
+external/*
+!external/.gitkeep
+results/*
+!results/.gitkeep
+logs/
+tmp/
+slurm-*.out
+.DS_Store
+
+# Local agent configuration.
+.agents/
+.codex/
+
+# Private recovery/history and local project memory.
+.archive/
+.aws/
+MEMORY.md
+codex-session-*.md
+
+# Frozen study raw arrays and machine-specific execution records.
+study/**/results/
+study/**/tmp/

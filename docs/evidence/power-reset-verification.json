@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "checks": [
+    "Numerical kernel, runner and frozen configuration match run hashes",
+    "All four retained canonical input files match pre-run hashes",
+    "All 49 baseline paths match retained loss prefixes exactly",
+    "All 52 optimizer trajectories meet work budgets; all 156 minimal timing paths match",
+    "All saved B decisions, arming, cap ages, work, increments and mode sums verify",
+    "Exact/misspecified retained problems are identical; B reuse is valid"
+  ],
+  "analysis_sha256": {
+    "study/B/scripts/run_study.py": "ed19cb537528c27f0df1e1ee819c83cb8f7f8e49980c90017bc49e3ade767db7",
+    "study/B/scripts/verify_artifacts.py": "6d0ec54a0f5917e60741e83d2512caf045d9fdee7dfc70d597d3a5fe79f83ca4",
+    "study/B/scripts/analyze.py": "911953b5ad73eb7f545871a07402bb1ba4e0de1d33ce5192f92b0b1551d1471d"
+  }
+}

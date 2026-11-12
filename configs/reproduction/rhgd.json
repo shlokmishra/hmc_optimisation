@@ -1,0 +1,164 @@
+{
+  "schema_version": 1,
+  "repository": "https://github.com/QiangFu09/RHGD",
+  "commit": "37962b3074a5c9c6248ef062ffa665a2177a1301",
+  "notebook": "external/RHGD/code_of_experiments.ipynb",
+  "notebook_sha256": "2406bbda24201a0a69d7624712b85a7f598c004ea2470688e94e6d1e59932cfc",
+  "paper": "Hamiltonian Descent Algorithms for Optimization.pdf",
+  "paper_sha256": "883493540b39a99782a274b1939f8a0c01c8df7eb663714b53b6d294bd707f9a",
+  "cells": [
+    {
+      "index": 0,
+      "sha256": "bb4160e746705f3207dcf0ef75cab9e8ae5ff3d161e574fa875342a6e2b68f6c",
+      "saved_execution_count": 12
+    },
+    {
+      "index": 1,
+      "sha256": "ac91b429040b55319712731e28c6bae903ada990280ae1958cdce3fad2818f5a",
+      "saved_execution_count": 14
+    },
+    {
+      "index": 2,
+      "sha256": "c5c29ae631490cf4ce47eff28d8538f6e71bfe2ce2c6c84860f8c8442d2e64a8",
+      "saved_execution_count": 13
+    },
+    {
+      "index": 3,
+      "sha256": "c2c0550cc2df15154558b5a3331f66a51df300fa083244074e935e8da67c3dcf",
+      "saved_execution_count": 6
+    },
+    {
+      "index": 4,
+      "sha256": "054024d6eb7cd4e90a9506b4a6ac4580175c28fcff1b122b4dc5fb224d9843f6",
+      "saved_execution_count": 11
+    },
+    {
+      "index": 5,
+      "sha256": "ca0f248fb2b0efa25970132572ba3f1cd1387d98061fa929f83f1ace77945d21",
+      "saved_execution_count": 10
+    },
+    {
+      "index": 6,
+      "sha256": "0685273e3aa7a9e20b63fb95ca1aee9b39fdec728d30b53ce691ff82e68567e9",
+      "saved_execution_count": 7
+    }
+  ],
+  "cases": {
+    "fig1-left": {
+      "cell": 0,
+      "iterations": 1000000,
+      "assignments": {}
+    },
+    "fig1-middle": {
+      "cell": 1,
+      "iterations": 1000000,
+      "assignments": {
+        "alphas": [
+          0.01
+        ]
+      }
+    },
+    "fig1-right": {
+      "cell": 2,
+      "iterations": 1000000,
+      "assignments": {"num_iters": 1000000},
+      "mode": "user_requested_parameters",
+      "setting_provenance": "User requested L=500 and 1000000 iterations. Pinned cell 2 uses L=500 and 10000 iterations; only the iteration count is overridden. Paper Figure 1-right also shows L=500 and an axis through 10000; assess historical agreement separately.",
+      "notebook_default_iterations": 10000
+    },
+    "fig2-left": {
+      "cell": 3,
+      "iterations": 1000,
+      "assignments": {}
+    },
+    "fig2-right": {
+      "cell": 4,
+      "iterations": 200,
+      "assignments": {}
+    },
+    "fig3-left": {
+      "cell": 0,
+      "iterations": 1000,
+      "assignments": {
+        "kappa": 1000.0
+      }
+    },
+    "fig3-right": {
+      "cell": 0,
+      "iterations": 10000,
+      "assignments": {
+        "kappa": 100000.0
+      }
+    },
+    "fig4-left": {
+      "cell": 1,
+      "iterations": 1000000,
+      "assignments": {
+        "alphas": [
+          0.1
+        ]
+      }
+    },
+    "fig4-right": {
+      "cell": 1,
+      "iterations": 1000000,
+      "assignments": {
+        "alphas": [
+          1
+        ]
+      }
+    },
+    "fig5-left": {
+      "cell": 2,
+      "iterations": 10000,
+      "assignments": {
+        "lamda_max": 5000,
+        "eta": 2.5e-05,
+        "h": 0.0017677669529663688
+      },
+      "call_arguments": {
+        "run_nag": {
+          "2": 1.25e-05
+        }
+      }
+    },
+    "fig5-right": {
+      "cell": 2,
+      "iterations": 10000,
+      "assignments": {
+        "lamda_max": 50000,
+        "eta": 2.5e-06,
+        "h": 0.0005590169943749475
+      },
+      "call_arguments": {
+        "run_nag": {
+          "2": 1.25e-06
+        }
+      }
+    },
+    "fig6-left": {
+      "cell": 5,
+      "iterations": 100000,
+      "assignments": {}
+    },
+    "fig6-right": {
+      "cell": 6,
+      "iterations": 1000,
+      "assignments": {}
+    },
+    "fig7-left": {
+      "cell": 3,
+      "iterations": 1000,
+      "assignments": {
+        "lambda_reg": 0.001
+      }
+    },
+    "fig7-right": {
+      "cell": 3,
+      "iterations": 1000,
+      "assignments": {
+        "lambda_reg": 1e-05
+      }
+    }
+  }
+}

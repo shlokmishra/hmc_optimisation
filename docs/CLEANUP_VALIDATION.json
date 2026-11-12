@@ -1,0 +1,56 @@
+{
+  "date": "2026-11-12",
+  "scope": "Repository migration to the presented STAT 605 proposal; no historical benchmark rerun",
+  "checkpoint": {
+    "files": 723,
+    "members_sha256_verified_before_cleanup": true,
+    "private_local_directory": ".archive/stat605-20261112",
+    "permanently_deleted_files": 0
+  },
+  "historical_integrity": {
+    "source_config_test_files_verified_unchanged": 307,
+    "missing_checkpoint_paths": 0,
+    "portable_evidence_copies_sha256_verified": 10,
+    "raw_arrays_exhaustively_rehashed": false
+  },
+  "validation": {
+    "current_checkout_pytest": {
+      "passed": 35,
+      "skipped": 0
+    },
+    "clean_extracted_bundle_pytest": {
+      "passed": 16,
+      "skipped": 19,
+      "skip_reason": "Optional pinned RHGD checkout intentionally absent"
+    },
+    "smoke_current_checkout": "passed",
+    "smoke_clean_extracted_bundle": "passed",
+    "smoke_plot_visual_inspection": "passed",
+    "ruff_check": "passed",
+    "ruff_format_check": "passed",
+    "check_env": "passed",
+    "pip_check": "passed",
+    "shell_syntax": "passed",
+    "non_grace_installation": "not tested",
+    "other_operating_systems": "not tested"
+  },
+  "sharing": {
+    "bundler": "scripts/package_project.py",
+    "manifest": "SHARE_MANIFEST.json inside tar",
+    "excludes": [
+      ".archive",
+      "MEMORY.md",
+      ".venv",
+      "raw results",
+      "external clones",
+      "credentials",
+      "chat exports"
+    ],
+    "publication": "not performed"
+  },
+  "research_execution": {
+    "slurm_jobs_submitted": 0,
+    "historical_optimizers_rerun": false,
+    "software_smoke_only": true
+  }
+}

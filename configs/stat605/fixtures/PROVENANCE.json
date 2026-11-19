@@ -1,0 +1,183 @@
+{
+  "exported_on": "2026-11-19",
+  "purpose": "Portable historical problem inputs for course collaboration; no traces or optimizer results",
+  "author_commit": "37962b3074a5c9c6248ef062ffa665a2177a1301",
+  "quadratic_freeze": {
+    "path": "results/studies/power_reset_spectral_comparison/freeze.json",
+    "sha256": "e387d8cb680c4a08274fb76b9f9211d337603cf69350d055bd3cfd4d3ab36f9d"
+  },
+  "historical_arrays_copied_exactly": true,
+  "fixtures": [
+    {
+      "file": "quadratic_paper.npz",
+      "kind": "quadratic",
+      "sha256": "faf49df922eeaa6c68d3abd1335785dde622020c0bc5661f1012595f4ceef64d",
+      "bytes": 142444,
+      "settings": {
+        "mu": 5e-05,
+        "L": 500.0,
+        "eta": 0.002,
+        "h_rule": "sqrt(eta)",
+        "fstar": 0.0
+      },
+      "sources": {
+        "A": {
+          "path": "results/studies/power_reset_spectral_comparison/data/A_paper.npy",
+          "file_sha256": "c9ff347c959e1374b65f6d571613ae499549bb321872983ea7399a1940e3cb9a"
+        },
+        "x0": {
+          "path": "results/studies/power_reset_spectral_comparison/data/x0.npy",
+          "file_sha256": "19edb0b65ea411dbba0224ce18e11a52c0c40a1a914ac5c04e6228adda3d77af"
+        },
+        "basis": {
+          "path": "results/studies/power_reset_spectral_comparison/data/basis_paper.npy",
+          "file_sha256": "792ae1541490315cbc38ea2f19def25b4ef168f822dfc88bb0a69308cfd208ab"
+        },
+        "eigenvalues": {
+          "path": "results/studies/power_reset_spectral_comparison/data/spectrum_paper.npy",
+          "file_sha256": "1646c02d6b373773463e9f4d9080c912ab57cb247cc4663307d39be871fe0549"
+        }
+      },
+      "arrays": {
+        "A": {
+          "shape": [
+            100,
+            100
+          ],
+          "dtype": "float64",
+          "raw_c_order_sha256": "38e47e1ea02d937f3103abbbc4adfa6f3e25c6d91eddf0025100e926a7bcf56c"
+        },
+        "x0": {
+          "shape": [
+            100
+          ],
+          "dtype": "float64",
+          "raw_c_order_sha256": "22467333cce9ae74da2aa3d048e6921cad04043b1d1d5b3097c76623328d7333"
+        },
+        "basis": {
+          "shape": [
+            100,
+            100
+          ],
+          "dtype": "float64",
+          "raw_c_order_sha256": "d034138b5d40730e8b9e62fa71ec8c2ffbe0298a1191f876ae54dbb50167e648"
+        },
+        "eigenvalues": {
+          "shape": [
+            100
+          ],
+          "dtype": "float64",
+          "raw_c_order_sha256": "c0aa81886a17cb576422e45ad87e89bbdd33624ca4d5f4c1202e645e8f8a73fe"
+        }
+      }
+    },
+    {
+      "file": "quadratic_log.npz",
+      "kind": "quadratic",
+      "sha256": "4e7a4e211fb567d41db20e80230b6f793becec1fa51a1f0ea20bacd1f24d8444",
+      "bytes": 141910,
+      "settings": {
+        "mu": 5e-05,
+        "L": 500.0,
+        "eta": 0.002,
+        "h_rule": "sqrt(eta)",
+        "fstar": 0.0
+      },
+      "sources": {
+        "A": {
+          "path": "results/studies/power_reset_spectral_comparison/data/A_log.npy",
+          "file_sha256": "091b9e42fba101f4b019a39e2eb0c511af3e01cb2bab8fdba2782ee414c0cb9d"
+        },
+        "x0": {
+          "path": "results/studies/power_reset_spectral_comparison/data/x0.npy",
+          "file_sha256": "19edb0b65ea411dbba0224ce18e11a52c0c40a1a914ac5c04e6228adda3d77af"
+        },
+        "basis": {
+          "path": "results/studies/power_reset_spectral_comparison/data/basis_log.npy",
+          "file_sha256": "14317f4e574a44d76d8c433c6d27cb704cd5c099bf2d2bc9e1e74498ac1ab7cd"
+        },
+        "eigenvalues": {
+          "path": "results/studies/power_reset_spectral_comparison/data/spectrum_log.npy",
+          "file_sha256": "c57b6aaca47b9e700da8faa6edade097ba645927182e18b26aaf536def3ad9e9"
+        }
+      },
+      "arrays": {
+        "A": {
+          "shape": [
+            100,
+            100
+          ],
+          "dtype": "float64",
+          "raw_c_order_sha256": "aabf1ff12f9068825e45e7cf6cc7e4bc2ba0f470d89f2e23c8e516ca12a27bf0"
+        },
+        "x0": {
+          "shape": [
+            100
+          ],
+          "dtype": "float64",
+          "raw_c_order_sha256": "22467333cce9ae74da2aa3d048e6921cad04043b1d1d5b3097c76623328d7333"
+        },
+        "basis": {
+          "shape": [
+            100,
+            100
+          ],
+          "dtype": "float64",
+          "raw_c_order_sha256": "b8ce59f1ffcafcc3bad4bd7b793c002ee7fddb76d2ad540071520baec9fb3725"
+        },
+        "eigenvalues": {
+          "shape": [
+            100
+          ],
+          "dtype": "float64",
+          "raw_c_order_sha256": "af278988507cb213d9fffe4efaea2e9b580249cb1ea5af752bb3af88f24f165e"
+        }
+      }
+    },
+    {
+      "file": "logistic_regularized.npz",
+      "kind": "synthetic_regularized_logistic",
+      "sha256": "d7ff7fe2a6be31f9487cf9de095ca088629f9f829d5300ac8cc9f91c5d72f0f7",
+      "bytes": 385866,
+      "settings": {
+        "regularization": 0.0001,
+        "loss": "mean(logaddexp(0, -b*(A@x))) + (regularization/2)*dot(x,x)",
+        "reference_minimum": "not included; do not assume zero"
+      },
+      "sources": {
+        "arrays": {
+          "path": "results/reproduction/fig2-left-19768992/figure-01-arrays.npz",
+          "file_sha256": "60c4525651b5d3d5a865f428ec41a95412d4ebacf26bc5301f379372ac021f46"
+        },
+        "original_cell": {
+          "path": "results/reproduction/fig2-left-19768992/original_cell.py",
+          "file_sha256": "c2c0550cc2df15154558b5a3331f66a51df300fa083244074e935e8da67c3dcf"
+        }
+      },
+      "arrays": {
+        "A": {
+          "shape": [
+            500,
+            100
+          ],
+          "dtype": "float64",
+          "raw_c_order_sha256": "ff306754bf85742cad937a751399a4b0296df449b87f8c2e2b1f664871e06d91"
+        },
+        "b": {
+          "shape": [
+            500
+          ],
+          "dtype": "float64",
+          "raw_c_order_sha256": "152c52b5669e63f6a16ffab334f9a898e959e32234ba02680dce0cea8082ae75"
+        },
+        "x0": {
+          "shape": [
+            100
+          ],
+          "dtype": "float64",
+          "raw_c_order_sha256": "22467333cce9ae74da2aa3d048e6921cad04043b1d1d5b3097c76623328d7333"
+        }
+      }
+    }
+  ]
+}

@@ -8,16 +8,19 @@ trajectory-dependent momentum resets in Hamiltonian optimization. The central
 question is how spectra and initial modal energies affect efficiency when the
 dimension and extreme eigenvalues are held fixed.
 
-Start with the [completed-work audit](docs/PROJECT_STATUS.md),
+**New collaborators: start with the [group handoff and work split](CONTRIBUTING.md).**
+It covers setup, the proposed four workstreams, starter inputs, and first tasks.
+The [completed-work audit](docs/PROJECT_STATUS.md),
 [remaining experiments](docs/EXPERIMENT_PLAN.md), and
-[method conventions](docs/METHODS.md). [CONTRIBUTING.md](CONTRIBUTING.md) describes
-how the group can divide the work.
+[method conventions](docs/METHODS.md) give the scientific detail.
 
 ## Run a small example
 
-Use Python 3.13. From the project root:
+Use Python 3.13 and Bash (Linux/macOS or a Linux environment on Windows):
 
 ```bash
+git clone https://github.com/shlokmishra/hmc_optimisation.git
+cd hmc_optimisation
 bash scripts/setup_env.sh
 source scripts/activate_env.sh
 python scripts/stat605.py smoke --output tmp/stat605-smoke
@@ -50,6 +53,7 @@ them, follow [reproduction setup](docs/REPRODUCTION.md), then run
 | `src/stat605/` | Course entry points and small demonstrations |
 | `study/B/src/`, `study/B/configs/` | Unchanged frozen power-reset reference |
 | `configs/stat605/` | Course settings, separate from historical settings |
+| `configs/stat605/fixtures/` | Exact small historical quadratic and synthetic logistic inputs, with hashes |
 | `tests/` | Replay, cost, correctness, and course checks |
 | `scripts/` | Setup, smoke example, replay, and sharing tools |
 
@@ -58,6 +62,9 @@ remain unchanged because historical provenance pins their bytes and locations.
 RCM and several proposed reset rules still need implementation and validation.
 
 ## Share with the group
+
+The shared code is at [shlokmishra/hmc_optimisation](https://github.com/shlokmishra/hmc_optimisation).
+Clone it using the commands above. An optional portable source bundle is also available:
 
 ```bash
 python scripts/package_project.py --output tmp/stat605-collaboration.tar.gz

@@ -5,6 +5,14 @@ source/configuration/result files. No historical benchmark was rerun in this
 audit. Prior experiments were individual research completed before the course;
 the group should distinguish reuse from its new contributions.
 
+**Collaborator handoff updated November 19, 2026:** source is on
+[GitHub](https://github.com/shlokmishra/hmc_optimisation). The
+[group guide](../CONTRIBUTING.md) gives the proposed named workstreams and first
+tasks. Compact exact inputs for both historical quadratic problems and the
+synthetic regularized-logistic problem are now included in
+`configs/stat605/fixtures/`, with source paths and hashes. They are problem inputs,
+not historical trajectories. No new research benchmark was run for this handoff.
+
 ## What we already have
 
 | Proposal commitment | Existing evidence | Status for the course |
@@ -48,15 +56,17 @@ The original logistic gap/reference conventions also need qualification.
 The fair spectral study counted distinct evaluations uniformly, including cached
 CAGD duplicates. At a sustained objective-gap target of 1e-8:
 
-| Spectrum | Power-reset RHGD | Gradient-restart AGD | AGD | CAGD median |
-| --- | ---: | ---: | ---: | ---: |
-| Paper linear | 10,000 | 11,832 | 16,750 | 16,747 |
-| Dense logarithmic | 43,016 | 25,188 | 23,771 | 24,376 |
+| Spectrum | Original RHGD median | Power-reset RHGD | Gradient-restart AGD | AGD | CAGD median |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Paper linear | 61,274 | 10,000 | 11,832 | 16,750 | 16,747 |
+| Dense logarithmic | 127,424 | 43,016 | 25,188 | 23,771 | 24,376 |
 
 Values are gradient evaluations. The full [saved summary](evidence/spectral-summary.json)
 also contains timing and other targets. Power-reset RHGD failed the predeclared
 20% work-and-time improvement gate against restarted AGD on both spectra.
-It improves the original RHGD in selected settings but is not a general winner.
+Power reset substantially reduces gradient work relative to original RHGD on
+these two fixed problems. Its advantage over restarted AGD depends on the spectrum;
+it is not a general winner.
 These two matrices support the proposal's motivation for testing spectra; they
 do not isolate every effect of initial modal energies or establish a rate theorem.
 

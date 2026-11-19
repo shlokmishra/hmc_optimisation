@@ -1,8 +1,15 @@
 # Remaining course work
 
 This is a proposed bounded plan derived from slide 17, not a record of completed
-experiments. Owners and compute ceilings should be agreed by the group. No jobs
-were submitted during repository cleanup.
+experiments. The [November 19 collaborator handoff](../CONTRIBUTING.md) maps it to
+four proposed owners: Kwonsang (AGD), Leonardo (RCM), Shlok (RHGD/power reset), and
+Leo (spectral geometry and comparison infrastructure). Confirm the split and
+compute ceilings as a group. Each stream owns checks, results, and report text.
+No jobs were submitted during cleanup or the collaborator handoff.
+
+Quadratics are the core controlled study. Plan one common regularized-logistic
+validation after the quadratic suite is ready; it can be deferred if time is
+insufficient. Existing logistic inputs and preliminary results are already shared.
 
 ## 1. Close the method and replication gaps
 
@@ -33,6 +40,9 @@ small correctness tests. RCM symplectic Euler and RHGD are different integrators
 - [ ] Make dimension, mu, L, stepsize, seeds and initial modal energy configurable.
   The old spectral runner hard-codes historical settings; do not change its frozen
   global configuration to turn it into a general harness.
+- [ ] Begin with the exact small inputs in `configs/stat605/fixtures/`; their
+  provenance manifest verifies the two retained quadratic problems and synthetic
+  regularized-logistic data. No private raw result directory is needed to load them.
 - [ ] Record iteration, distinct and literal gradients, objectives, reset counts,
   current loss, signed loss, status, and elapsed optimizer time. Pay for rejected
   work and controller checks. Preserve failures and censored targets.
@@ -66,7 +76,7 @@ Deliverable: loss versus gradients, loss versus iterations, work-to-target table
 and a mechanism figure. A change in ranking is a useful result even if no new
 controller wins.
 
-## 4. Sensitivity, then optional logistic regression
+## 4. Sensitivity, then a small logistic validation
 
 - [ ] At fixed matrices, compare exact supplied mu with predeclared under/over-
   estimates. Label which methods use mu and which do not; mu-free does not mean
@@ -77,6 +87,8 @@ controller wins.
 - [ ] Only after the quadratic suite is stable, run a small regularized logistic
   comparison using common data/starts and a documented reference minimum.
   Existing logistic results can be reused with their original limitations.
+  Each method owner contributes their implementation; this is one shared
+  statistical validation case rather than a second full parameter sweep.
 
 ## 5. Produce the group deliverables
 

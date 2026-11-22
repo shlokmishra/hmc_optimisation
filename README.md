@@ -14,6 +14,10 @@ The [completed-work audit](docs/PROJECT_STATUS.md),
 [remaining experiments](docs/EXPERIMENT_PLAN.md), and
 [method conventions](docs/METHODS.md) give the scientific detail.
 
+Leo's [spectral comparison](docs/spectral/REPORT.md) includes the
+100-dimensional starting-energy figure, a checked five-method example, and
+instructions for running the matched comparison on Grace.
+
 ## Run a small example
 
 Use Python 3.13 and Bash (Linux/macOS or a Linux environment on Windows):

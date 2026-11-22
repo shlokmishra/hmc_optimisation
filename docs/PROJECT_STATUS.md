@@ -13,7 +13,13 @@ synthetic regularized-logistic problem are now included in
 `configs/stat605/fixtures/`, with source paths and hashes. They are problem inputs,
 not historical trajectories. No new research benchmark was run for this handoff.
 
-## What we already have
+**November 22 spectral work.** Leo completed the configurable five-method
+quadratic harness, matched linear/log/clustered problems, controlled-energy
+starts, and a 117-path local correctness example. The 100D geometry figure uses
+the retained inputs. The Grace optimizer pilot is prepared for later.
+[Report, comparison table and figures](spectral/REPORT.md)
+
+## Findings from the November 12 audit
 
 | Proposal commitment | Existing evidence | Status for the course |
 | --- | --- | --- |

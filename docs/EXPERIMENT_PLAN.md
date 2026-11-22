@@ -7,6 +7,12 @@ Leo (spectral geometry and comparison infrastructure). Confirm the split and
 compute ceilings as a group. Each stream owns checks, results, and report text.
 No jobs were submitted during cleanup or the collaborator handoff.
 
+**November 22 update.** The shared interface runs the five existing methods.
+Leo completed the matched problem construction, fixed-energy comparisons and
+local software check. The pilot configuration and Slurm template are ready
+for later use. The full comparison and other method owners' adapters remain open.
+[Results and reproduction commands](spectral/REPORT.md)
+
 Quadratics are the core controlled study. Plan one common regularized-logistic
 validation after the quadratic suite is ready; it can be deferred if time is
 insufficient. Existing logistic inputs and preliminary results are already shared.
@@ -37,19 +43,19 @@ small correctness tests. RCM symplectic Euler and RHGD are different integrators
   CAGD, original RHGD, power-reset RHGD, selected RCM, and the new RHGD controllers.
   GD can serve as a simple reference. Do not infer a common guarantee from a
   shared interface.
-- [ ] Make dimension, mu, L, stepsize, seeds and initial modal energy configurable.
+- [x] Make dimension, mu, L, stepsize, seeds and initial modal energy configurable.
   The old spectral runner hard-codes historical settings; do not change its frozen
   global configuration to turn it into a general harness.
-- [ ] Begin with the exact small inputs in `configs/stat605/fixtures/`; their
+- [x] Begin with the exact small inputs in `configs/stat605/fixtures/`; their
   provenance manifest verifies the two retained quadratic problems and synthetic
   regularized-logistic data. No private raw result directory is needed to load them.
-- [ ] Record iteration, distinct and literal gradients, objectives, reset counts,
+- [x] Record iteration, distinct and literal gradients, objectives, reset counts,
   current loss, signed loss, status, and elapsed optimizer time. Pay for rejected
   work and controller checks. Preserve failures and censored targets.
-- [ ] Use the same objective, start, cache policy, and output convention for every
+- [x] Use the same objective, start, cache policy, and output convention for every
   method. Report both iterations and gradients; RHGD usually needs two gradients
   per update. Keep diagnostics outside the timed boundary or charge them uniformly.
-- [ ] Store config, seeds, environment, source hashes, raw traces and summary JSON
+- [x] Store config, seeds, environment, source hashes, raw traces and summary JSON
   in a new output directory. Separate setup, diagnostics, and optimizer time.
 
 Deliverable: one reproducible configuration-driven CPU benchmark, initially on a
@@ -57,7 +63,7 @@ tiny test problem. The current `smoke` command is only an onboarding demonstrati
 
 ## 3. Test the spectral hypothesis
 
-- [ ] Start with linear, log-spaced, and one predeclared clustered spectrum, all
+- [x] Start with linear, log-spaced, and one predeclared clustered spectrum, all
   with d=100, mu=5e-5, L=500. Reuse one orthogonal basis for matched comparisons.
 - [ ] Compare the retained common-start convention with equal initial modal
   energies. Optionally add a declared slow-heavy start. Equal x coordinates do

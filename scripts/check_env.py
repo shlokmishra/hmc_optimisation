@@ -1,5 +1,7 @@
 """Check the actual numerical runtime and save a small environment snapshot."""
 
+# ruff: noqa: E402
+
 import importlib
 import importlib.metadata
 import json
@@ -13,7 +15,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.linalg import solve
 from scipy.optimize import minimize
-from threadpoolctl import threadpool_info
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+from stat605.runtime import single_thread_pools
 
 
 def main() -> None:
@@ -23,6 +27,7 @@ def main() -> None:
     if sys.version_info[:2] != (3, 13):
         raise RuntimeError(f"Expected Python 3.13, found {platform.python_version()}.")
 
+    pools = single_thread_pools()
     # Exercise compiled NumPy/SciPy code and an optimizer with a known solution.
     matrix = np.array([[4.0, 1.0], [1.0, 3.0]], dtype=np.float64)
     rhs = np.array([1.0, 2.0], dtype=np.float64)
@@ -41,9 +46,6 @@ def main() -> None:
 
     for module in ("pandas", "yaml", "tqdm", "pytest", "ipykernel"):
         importlib.import_module(module)
-    pools = threadpool_info()
-    if not pools or any(pool["num_threads"] != 1 for pool in pools):
-        raise RuntimeError(f"Expected one thread per numerical runtime: {pools}")
 
     output = root / "tmp"
     output.mkdir(exist_ok=True)

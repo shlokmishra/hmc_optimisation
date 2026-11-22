@@ -1,0 +1,13 @@
+{
+  "purpose": "local_check",
+  "problem": {"source": "generated", "dimension": 8, "mu": 0.05, "L": 5.0, "problem_seed": 605, "total_energy": 1.0},
+  "spectra": ["linear", "log", "clustered"],
+  "starts": ["common", "scaled_common", "equal"],
+  "eta": 0.2,
+  "supplied_mu": 0.05,
+  "cap": 65536,
+  "gradient_budget": 120,
+  "targets": [0.01, 0.00001],
+  "power_diagnostic_steps": 60,
+  "seeds": {"AGD": [null], "AR_AGD": [null], "CAGD": [31001, 31002, 31003, 31004, 31005], "RHGD": [41001, 41002, 41003, 41004, 41005], "B": [null]}
+}

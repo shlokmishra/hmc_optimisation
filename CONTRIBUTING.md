@@ -1,6 +1,6 @@
 # Group handoff: start here
 
-Updated November 19, 2026. Shared repository:
+Updated November 22, 2026. Shared repository:
 [shlokmishra/hmc_optimisation](https://github.com/shlokmishra/hmc_optimisation).
 The repository is public, so everyone can clone it. Use a fork and pull request
 if direct write access has not yet been arranged.
@@ -22,12 +22,11 @@ The smoke command writes `smoke.png`, five small method traces, and `summary.jso
 It demonstrates working software; it is not a research comparison. Choose a fresh
 output directory for each run. Grace uses the project Python modules; local
 computers use a standard virtual environment. See [environment details](docs/grace.md).
-The non-Grace installation path and other operating systems have not been tested.
+Leo verified the pinned environment and numerical checks on Apple Silicon with Python 3.13.
 
-A source checkout without the optional author notebook is expected to pass 16
-checks and skip 19 replay checks. Those skips are explained by
-[reproduction setup](docs/REPRODUCTION.md); they do not prevent course work.
-The owner's checkout with pinned upstream inputs has passed all 35 checks.
+The course checks run without the optional author notebook. A checkout without
+the pinned upstream source skips 19 replay checks. See the
+[reproduction setup](docs/REPRODUCTION.md).
 
 ## 2. What exists now
 
@@ -45,9 +44,12 @@ versus 127,424. Randomized RHGD entries are five-seed medians. Restarted AGD use
 The old 20% work-and-time gate against restarted AGD failed. Preserve that result.
 See the [status audit](docs/PROJECT_STATUS.md) and [saved evidence](docs/evidence/README.md).
 
-These are inherited results from Shlok's earlier work, not new group experiments.
-RCM, function-restart AGD, a general course comparison harness, clustered spectra,
-and a unified logistic comparison remain to be completed.
+These are inherited results from Shlok's earlier work. Leo's course contribution
+adds matched clustered inputs, fixed-energy starts, and a configurable comparison
+of the five existing methods. The report includes a 100D input-geometry figure
+and results from an eight-dimensional software check. The Grace pilot is ready
+for a later allocation. RCM, function-restart AGD, new RHGD controllers, and a
+unified logistic comparison remain open. [Leo's section and run commands](docs/spectral/REPORT.md)
 
 ## 3. Proposed four workstreams
 
@@ -66,9 +68,10 @@ matching final-report subsection. All four contribute to interpretation and the
 final presentation. Shlok's completed work counts as the inherited starting point;
 a new successful optimizer or general theorem is not a completion requirement.
 
-Suggested separate new files: `src/stat605/agd.py`, `rcm.py`, `rhgd.py`, and
-`problems.py`/`benchmark.py`, with corresponding tests. These are proposed work
-locations, not implementations already present. Keep frozen historical code intact.
+The shared quadratic utilities and method adapter interface now live in
+`src/stat605/problems.py` and `src/stat605/benchmark.py`. Suggested locations for
+the other streams are `src/stat605/agd.py`, `rcm.py`, and `rhgd.py`, with
+corresponding tests. Keep frozen historical code intact.
 For three streams, combine Shlok and Leo into a joint Hamiltonian/spectral stream.
 
 ## 4. Shared problems and independence
@@ -88,11 +91,12 @@ historical gradient `A @ x`. Matrices retain their original floating-point bytes
 The logistic objective is `mean(logaddexp(0, -b*(A@x))) + (1e-4/2)*dot(x,x)`;
 its reference minimum is not supplied and must not be assumed to be zero.
 
-The reusable five-method runner is `src/power_reset_spectral_comparison/core.py`.
+The historical five-method runner is `src/power_reset_spectral_comparison/core.py`.
 `B` means power-reset RHGD. The underlying frozen step/reset source is
 `study/B/src/power_reset.py`. The old evidence/experiment tools still expect large
-private raw results and are not the new course harness. Use the core recurrence
-and small fixtures to start; the full configurable harness remains new work.
+private raw results. The course harness uses the small fixtures and saved method
+conventions. Run `python scripts/stat605.py spectral --output tmp/my-spectral-check`
+for the local example, or use the [pilot protocol](docs/spectral/REPORT.md) on Grace.
 
 At the first group sync, agree common problem inputs, start, method parameters,
 gradient budget, and seed, plus output fields: current loss, iteration, actual and

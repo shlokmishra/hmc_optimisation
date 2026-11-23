@@ -20,11 +20,25 @@ STARTS = {
 }
 METHODS = {
     "AGD": ("AGD", "#0072B2", "-"),
-    "AR_AGD": ("Gradient-restart AGD", "#7852A3", "--"),
+    "AR_AGD": ("Historical restart AGD", "#7852A3", "--"),
     "CAGD": ("CAGD", "#008367", "-"),
     "RHGD": ("RHGD", "#D55E00", "-"),
     "B": ("Power-reset RHGD", "#252525", "--"),
 }
+METHODS.update(
+    {
+        "GD": ("GD", "#999999", ":"),
+        "FREE_AGD": ("Mu-free AGD", "#56B4E9", "--"),
+        "FUNCTION_AGD": ("Function-restart AGD", "#CC79A7", "-"),
+        "GRADIENT_AGD": ("Gradient-restart AGD", "#7852A3", "--"),
+        "FIXED_RHGD": ("Fixed-time RHGD", "#E69F00", ":"),
+        "ENDPOINT_RHGD": ("Endpoint normalized RHGD", "#A65628", "-"),
+        "KINETIC_RHGD": ("Kinetic normalized RHGD", "#F781BF", "--"),
+        "RCM_kin": ("RCM kin", "#1B9E77", "-"),
+        "RCM_mmd-r": ("RCM mmd-r", "#7570B3", "--"),
+        "RCM_mmd-dr": ("RCM mmd-dr", "#66A61E", ":"),
+    }
+)
 PURPOSES = {
     "local_check": "Local software check",
     "grace_pilot": "Grace pilot",
@@ -169,7 +183,7 @@ def _drawing_indices(loss, bins=800):
     return np.unique(indices)
 
 
-def _loss_figure(run_dir, output, runs, axis, scope, targets):
+def _loss_figure(run_dir, output, runs, axis, scope, targets, loss_limits=None):
     spectra = list(dict.fromkeys(r["spectrum"] for r in runs))
     starts = list(dict.fromkeys(r["start"] for r in runs))
     by_work = axis == "gradients"
@@ -227,6 +241,9 @@ def _loss_figure(run_dir, output, runs, axis, scope, targets):
             ax.set_yscale("log")
             if by_work:
                 ax.yaxis.set_major_locator(LogLocator(numticks=6))
+    if loss_limits is not None:
+        for panel in axes.flat:
+            panel.set_ylim(*loss_limits)
     xlabel = "Paid gradient evaluations" if by_work else "Completed iterations"
     if by_work and max_x >= 100:
         # Show the initial iterate and early paid work alongside the entire budget.
@@ -235,7 +252,7 @@ def _loss_figure(run_dir, output, runs, axis, scope, targets):
         ax.set_xlim(0, max_x)
         ax.xaxis.get_major_locator().set_params(numticks=6)
         ticks = ax.get_xticks()
-        ticks = ticks[(ticks >= 0) & (ticks < max_x / 1.7)]
+        ticks = ticks[(ticks >= 0) & (ticks < max_x / 3)]
         ax.set_xticks([*ticks, max_x])
         ax.xaxis.set_major_formatter(EngFormatter(sep=""))
         xlabel += " (linear to 10, then log)"

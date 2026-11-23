@@ -1,0 +1,31 @@
+{
+  "scope": "Shared .venv receipt on orchestration host; each Slurm stage independently enforces one numerical thread before running. Job nodes/accounting are recorded separately.",
+  "python": "3.13.5",
+  "platform": "Linux-4.18.0-553.177.1.el8_10.x86_64-x86_64-with-glibc2.28",
+  "packages": {
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "matplotlib": "3.11.1",
+    "threadpoolctl": "3.6.0"
+  },
+  "threadpools": [
+    {
+      "user_api": "blas",
+      "internal_api": "openblas",
+      "num_threads": 1,
+      "prefix": "libscipy_openblas",
+      "filepath": "/scratch/user/shlokmishra08/code/hmc_opt/.venv/lib/python3.13/site-packages/numpy.libs/libscipy_openblas64_-f48b354e.so",
+      "version": "0.3.34.106.0",
+      "threading_layer": "pthreads",
+      "architecture": "SkylakeX"
+    }
+  ],
+  "source_sha256": {
+    "src/power_reset_spectral_comparison/core.py": "8738efccd5c221a279f21ecac7cfb36242d28d084057bf6f64497c3a258f5ea1",
+    "study/B/src/power_reset.py": "12690622465189339b0203bce4d71fe8fa4c69b0778fd16f9dc735f4e914889c",
+    "configs/studies/power_reset_spectral_comparison.json": "2f1e553016c7d783606eff277a020879115b9f5608e65932f7805c0440b59e1a",
+    "scripts/activate_env.sh": "537c62c14e3149462ccf839b3370b1054cdae79d3abeb9330a6e2ea76989f020",
+    "scripts/grace_modules.sh": "f2fab1719a9b83ab5aa0a057d5b69c68f7df4cd3481fce6b6db2fd3e1bb0e95e"
+  },
+  "objective_scope": "Benchmark counts include controller and trace diagnostics. Three initial-objective matrix products per path define relative targets outside benchmark timing/counts, plus design/training-start setup products; these are not controller work."
+}

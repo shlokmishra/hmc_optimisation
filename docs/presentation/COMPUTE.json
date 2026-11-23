@@ -1,0 +1,10 @@
+{
+  "requested_cpu_hours": 7,
+  "approved_ceiling_cpu_hours": 8,
+  "unrequested_contingency_cpu_hours": 1,
+  "allocated_cpu_seconds": 1428,
+  "process_cpu_seconds": 1360.834,
+  "note": "Sum parent jobs only, excluding batch/extern duplicates. CPUTimeRAW is elapsed allocated CPU time; TotalCPU is measured user+system process CPU time. Neither is a direct statement of billed SUs.",
+  "allocated_cpu_hours": 0.39666666666666667,
+  "process_cpu_hours": 0.37800944444444445
+}

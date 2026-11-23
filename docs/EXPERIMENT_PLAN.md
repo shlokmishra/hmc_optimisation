@@ -1,5 +1,16 @@
 # Remaining course work
 
+**Approved final protocol implemented November 23:**
+`configs/stat605/final_protocol.json` supersedes the proposed priorities below.
+All fourteen methods are integrated, both normalized controllers are checked,
+and the 132-path main comparison is complete at 200,000 gradients per path.
+`configs/stat605/final_selected.json` freezes training selections before final
+cases. Both robustness tasks are complete: 198 paths, including 18 retained numerical
+failures at the 1.1-times RHGD stress stepsize. The approved
+requested ceiling is eight CPU-hours; seven are requested, with no automatic
+resubmission. Logistic and slide-deck construction are deferred. See
+[presentation delivery and reproduction](presentation/README.md).
+
 This is a proposed bounded plan derived from slide 17, not a record of completed
 experiments. The [November 19 collaborator handoff](../CONTRIBUTING.md) maps it to
 four proposed owners: Kwonsang (AGD), Leonardo (RCM), Shlok (RHGD/power reset), and

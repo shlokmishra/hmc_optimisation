@@ -4,11 +4,11 @@ import numpy as np
 import pytest
 
 from power_reset_spectral_comparison.core import CONFIG, run
-from stat605.benchmark import METHODS, RANDOMIZED_METHODS, Method, Step, run_benchmark
+from stat605.benchmark import RANDOMIZED_METHODS, Method, Step, run_benchmark
 from stat605.problems import make_problem
 
 
-@pytest.mark.parametrize("method", METHODS)
+@pytest.mark.parametrize("method", ("AGD", "AR_AGD", "CAGD", "RHGD", "B"))
 def test_historical_paths_and_measured_work(method):
     problem = make_problem("linear", "common")
     budget = 129

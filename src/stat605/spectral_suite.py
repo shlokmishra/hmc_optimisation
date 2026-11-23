@@ -24,6 +24,9 @@ SOURCES = (
     "scripts/activate_env.sh",
     "src/stat605/problems.py",
     "src/stat605/benchmark.py",
+    "src/stat605/course_methods.py",
+    "src/stat605/agd.py",
+    "src/stat605/rcm.py",
     "src/stat605/runtime.py",
     "src/stat605/spectral_suite.py",
     "src/stat605/spectral_reporting.py",
@@ -196,6 +199,7 @@ def spectral_suite(output, config_path=CONFIGS / "spectral_check.json"):
                     seed=seed,
                     targets=config["targets"],
                     diagnostic_steps=config["power_diagnostic_steps"],
+                    parameters=config.get("method_parameters", {}).get(method),
                 )
                 suffix = "deterministic" if seed is None else str(seed)
                 trace = trace_dir / f"{spectrum}-{start}-{method}-{suffix}.npz"

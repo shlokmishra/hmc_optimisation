@@ -1,0 +1,15 @@
+{
+  "archive": "/scratch/user/shlokmishra08/code/hmc_opt/results/stat605/final-20261123-raw.tar",
+  "sha256": "7d1e10269fedbeb345826c79465ce515aa9c8bd70db97549f613893fb77b85e4",
+  "bytes": 949544960,
+  "trace_files": 534,
+  "stages": [
+    "pilot",
+    "tune",
+    "main-0",
+    "main-1",
+    "robustness-0",
+    "robustness-1"
+  ],
+  "storage_note": "Full traces are outside Git. Transfer this separate archive to another machine; extract stages under a common parent to regenerate figures/tables. Compact assets and source are in Git."
+}

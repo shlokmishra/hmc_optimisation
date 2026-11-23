@@ -45,6 +45,22 @@ results, with eventual rankings on censored cases unresolved. Raw Grace traces
 are not in this checkout; their shared location and manifest remain a handoff task.
 See [the report and review scope](spectral/REPORT.md).
 
+**Approved final study, November 23:** all fourteen planned methods now share
+budget enforcement at actual gradient evaluations, including RCM initialization
+and discarded trials. Two separately named normalized RHGD controllers preserve
+the frozen numerical step. Bounded parity/boundary tests and the complete test
+suite pass. Pilot job 20661305 selected 200,000 gradients per main path; tuning
+job 20661330 selected fixed period 512 and beta=0 for both normalization families.
+Main array 20661360 completed all 132 matched paths without numerical failures;
+independent saved-trace audits find 64/66 rescaled-common and 57/66 equal-energy
+sustained relative-gap 1e-6 hits. Robustness array 20661362 completed 198 paths, retaining 18 numerical failures
+in the 1.1-times RHGD stress tests. All other robustness paths are finite.
+The [presentation guide](presentation/README.md) provides regeneration commands
+and a [16-minute outline](presentation/SPEAKING_OUTLINE.md). Complete raw traces
+remain outside Git in `results/stat605/final-20261123/`. Positive normalization
+exponents did not win the declared training criterion; preserve that negative
+finding. Historical paragraphs below describe the earlier audit state.
+
 ## What we already have
 
 | Proposal commitment | Existing evidence | Status for the course |

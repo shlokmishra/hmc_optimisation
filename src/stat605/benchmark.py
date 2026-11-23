@@ -1,7 +1,7 @@
 """Equal-gradient-budget comparisons of the course quadratic methods."""
 
 from collections.abc import Callable
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from time import perf_counter
 
 import numpy as np
@@ -10,14 +10,32 @@ from power_reset_spectral_comparison.analysis import crossings
 from power_reset_spectral_comparison.core import FROZEN_B, Oracle, ar_step
 
 
+class BudgetExhausted(Exception):
+    """An actual gradient evaluation would exceed the declared ceiling."""
+
+
 class BenchmarkOracle(Oracle):
     """Historical per-update gradient cache, plus controller work counters."""
 
-    def __init__(self, matrix):
+    def __init__(self, matrix, budget=None):
         super().__init__(matrix, cached=True)
+        self.budget = budget
+        self.controller_objectives = 0
+        self.rejected_trials = 0
+        self.controller_operations = 0
         self.controller_dots = 0
         self.uniform_draws = 0
         self.exponential_draws = 0
+
+    def grad(self, x):
+        if self.budget is not None and self.numerical >= self.budget:
+            if not (self.cached and id(x) in self.cache):
+                raise BudgetExhausted
+        return super().grad(x)
+
+    def controller_loss(self, x):
+        self.controller_objectives += 1
+        return self.loss(x)
 
 
 @dataclass(frozen=True)
@@ -27,6 +45,7 @@ class Settings:
     cap: int
     seed: int | None
     updates: int
+    parameters: dict = field(default_factory=dict)
 
 
 @dataclass
@@ -42,6 +61,9 @@ class Step:
     power: float | None = None
     gradient: np.ndarray | None = None
     velocity: np.ndarray | None = None
+    loss: float | None = None
+    signal: float | None = None
+    age: int = 0
 
 
 @dataclass(frozen=True)
@@ -58,6 +80,7 @@ class Method:
     gradient_cost: int
     uses_mu: bool = False
     randomized: bool = False
+    variable_cost: bool = False
 
 
 def _agd(oracle, x0, settings):
@@ -199,6 +222,7 @@ def run_benchmark(
     seed=None,
     targets=(),
     diagnostic_steps=0,
+    parameters=None,
 ):
     """Run complete updates within the paid-gradient budget and retain failures.
 
@@ -236,12 +260,14 @@ def run_benchmark(
     if any(not np.isfinite(target) or target <= 0 for target in targets):
         raise ValueError("targets must be positive finite objective gaps")
 
-    oracle = BenchmarkOracle(problem.A)
+    oracle = BenchmarkOracle(problem.A, gradient_budget)
     x = problem.x0.copy()
     if x.dtype != np.float64 or problem.A.dtype != np.float64:
         raise ValueError("benchmarks require float64 inputs")
     updates = gradient_budget // method.gradient_cost
-    settings = Settings(eta, supplied_mu if method.uses_mu else None, cap, seed, updates)
+    settings = Settings(
+        eta, supplied_mu if method.uses_mu else None, cap, seed, updates, parameters or {}
+    )
     trace = {
         key: np.zeros(updates + 1, dtype=np.int64)
         for key in ("gradients", "literal_gradients", "objectives")
@@ -250,11 +276,18 @@ def run_benchmark(
         trace[key] = np.zeros(updates + 1, dtype=bool)
     trace["loss"] = np.empty(updates + 1)
     trace["optimizer_seconds"] = np.empty(updates + 1)
-    samples = min(diagnostic_steps, updates) if method.name == "B" else 0
+    samples = (
+        min(diagnostic_steps, updates)
+        if method.name in ("B", "ENDPOINT_RHGD", "KINETIC_RHGD")
+        else 0
+    )
+    trace["signal"] = np.full(updates + 1, np.nan)
+    trace["age"] = np.zeros(updates + 1, dtype=np.int64)
     modal_power = np.empty((samples, len(x)))
     global_power = np.empty(samples)
     completed = attempted = reported_objectives = 0
     failure = None
+    exhausted = False
     failed_trial = {}
     setup_seconds = perf_counter() - start
 
@@ -262,30 +295,44 @@ def run_benchmark(
     try:
         with np.errstate(over="ignore", invalid="ignore", divide="ignore"):
             step = method.prepare(oracle, x, settings)
+    except BudgetExhausted:
+        exhausted = True
     except (FloatingPointError, OverflowError) as exc:
         failure = f"method initialization: {exc}"
     optimizer_seconds = perf_counter() - tick
     trace["optimizer_seconds"][0] = optimizer_seconds
     tick = perf_counter()
     with np.errstate(over="ignore", invalid="ignore", divide="ignore"):
-        reported_objectives += 1
+        reported_objectives += int(not hasattr(oracle, "initial_loss"))
         try:
-            trace["loss"][0] = oracle.loss(x)
+            trace["loss"][0] = (
+                oracle.initial_loss if hasattr(oracle, "initial_loss") else oracle.loss(x)
+            )
         except (FloatingPointError, OverflowError) as exc:
             trace["loss"][0] = np.nan
             failure = f"initial objective: {exc}"
         trace["objectives"][0] = oracle.objectives
+        trace["gradients"][0] = oracle.numerical if failure is None else 0
+        trace["literal_gradients"][0] = oracle.literal if failure is None else 0
         if failure is None and not np.isfinite(trace["loss"][0]):
             failure = "nonfinite initial objective"
         diagnostic_seconds = perf_counter() - tick
         for k in range(updates):
-            if failure is not None:
+            if failure is not None or exhausted or oracle.numerical >= gradient_budget:
+                break
+            if (
+                not method.variable_cost
+                and oracle.numerical + method.gradient_cost > gradient_budget
+            ):
                 break
             attempted += 1
             tick = perf_counter()
             oracle.begin()
             try:
                 result = step(x, k)
+            except BudgetExhausted:
+                exhausted = True
+                break
             except (FloatingPointError, OverflowError) as exc:
                 failure = str(exc)
                 break
@@ -293,9 +340,9 @@ def run_benchmark(
                 optimizer_seconds += perf_counter() - tick
 
             tick = perf_counter()
-            reported_objectives += 1
+            reported_objectives += int(result.loss is None)
             try:
-                loss = oracle.loss(result.x)
+                loss = oracle.loss(result.x) if result.loss is None else result.loss
             except (FloatingPointError, OverflowError) as exc:
                 loss = np.nan
                 failure = f"endpoint objective: {exc}"
@@ -318,7 +365,10 @@ def run_benchmark(
                     if value is not None:
                         failed_trial[f"failed_{key}"] = np.array(value, copy=True)
                 break
-            if oracle.numerical - trace["gradients"][k] != method.gradient_cost:
+            if (
+                not method.variable_cost
+                and oracle.numerical - trace["gradients"][k] != method.gradient_cost
+            ):
                 raise RuntimeError(
                     f"{method.name} adapter used a different gradient cost than declared"
                 )
@@ -333,6 +383,8 @@ def run_benchmark(
             trace["accepted"][completed] = result.accepted
             trace["event"][completed] = result.event
             trace["cap"][completed] = result.capped
+            trace["signal"][completed] = np.nan if result.signal is None else result.signal
+            trace["age"][completed] = result.age
 
     trace = {name: array[: completed + 1] for name, array in trace.items()}
     trace["iteration"] = np.arange(completed + 1, dtype=np.int64)
@@ -347,10 +399,14 @@ def run_benchmark(
         "method": method.name,
         "seed": seed,
         "settings": {
+            "parameters": settings.parameters,
             "eta": eta,
             "supplied_mu": settings.supplied_mu,
-            "h": float(np.sqrt(eta)) if method.name in ("B", "RHGD") else None,
-            "cap": cap if method.name == "B" else None,
+            "h": float(np.sqrt(eta))
+            if method.name in ("B", "RHGD", "FIXED_RHGD", "ENDPOINT_RHGD", "KINETIC_RHGD")
+            or method.name.startswith("RCM_")
+            else None,
+            "cap": cap if method.name in ("B", "ENDPOINT_RHGD", "KINETIC_RHGD") else None,
             "gradients_per_update": method.gradient_cost,
             "cache": "within-update immutable argument identity",
         },
@@ -365,6 +421,10 @@ def run_benchmark(
         "cache_hits": oracle.hits,
         "objectives": oracle.objectives,
         "diagnostic_objectives": reported_objectives,
+        "controller_objectives": oracle.controller_objectives,
+        "rejected_trials": oracle.rejected_trials,
+        "controller_operations": oracle.controller_operations,
+        "budget_exhausted_during_trial": exhausted,
         "charged_unfinished_gradients": oracle.numerical - int(trace["gradients"][-1]),
         "charged_unfinished_objectives": oracle.objectives - int(trace["objectives"][-1]),
         "controller_dots": oracle.controller_dots,
@@ -378,3 +438,9 @@ def run_benchmark(
         "wall_seconds": perf_counter() - start,
     }
     return trace, record
+
+
+from stat605.course_methods import register_methods  # noqa: E402
+
+register_methods(METHODS)
+RANDOMIZED_METHODS = frozenset(m.name for m in METHODS.values() if m.randomized)

@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "methods": [
+    "GD",
+    "AGD",
+    "FREE_AGD",
+    "FUNCTION_AGD",
+    "GRADIENT_AGD",
+    "CAGD",
+    "RHGD",
+    "FIXED_RHGD",
+    "B",
+    "ENDPOINT_RHGD",
+    "KINETIC_RHGD",
+    "RCM_kin",
+    "RCM_mmd-r",
+    "RCM_mmd-dr"
+  ],
+  "algorithm_seeds": [
+    605,
+    1605,
+    2605,
+    3605,
+    4605
+  ],
+  "relative_targets": [
+    0.0001,
+    1e-06,
+    1e-08
+  ],
+  "grids": {
+    "FIXED_RHGD": [
+      8,
+      64,
+      512,
+      4096
+    ],
+    "ENDPOINT_RHGD": [
+      0,
+      0.5,
+      1,
+      1.5
+    ],
+    "KINETIC_RHGD": [
+      0,
+      0.5,
+      1,
+      1.5
+    ]
+  },
+  "training_seeds": [
+    1605,
+    2605
+  ],
+  "training_budget": 20000,
+  "dimension": 100,
+  "mu": 5e-05,
+  "L": 500,
+  "source": "fixture",
+  "spectra": [
+    "linear",
+    "log",
+    "clustered"
+  ],
+  "starts": [
+    "scaled_common",
+    "equal"
+  ],
+  "cap": 65536,
+  "eta": 0.002,
+  "main_candidates": [
+    200000,
+    100000,
+    50000,
+    20000
+  ],
+  "runtime_margin": 2,
+  "main_cpu_seconds": 14400,
+  "requested_cpu_hours_ceiling": 8,
+  "job_hours": {
+    "pilot": 0.25,
+    "tune": 0.75,
+    "main_per_shard": 2,
+    "robustness_per_shard": 1,
+    "contingency": 1
+  },
+  "max_concurrency": 2,
+  "selection": "mean sustained 1e-6 G; miss=2*budget, failure=4*budget; tie mean log final relative gap then grid order",
+  "mu_factors": [
+    0.01,
+    1,
+    100
+  ],
+  "step_factors": [
+    0.5,
+    1,
+    1.1
+  ],
+  "stress_factor": 1.1
+}

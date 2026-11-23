@@ -1,0 +1,26 @@
+{
+  "raw_sources": [
+    {
+      "directory": "/scratch/user/shlokmishra08/code/hmc_opt/results/stat605/final-20261123/main-0",
+      "summary_sha256": "689011227bba33a5f2adbdb02022724e4871e91a4b7e91d988e1f4def4fe0375"
+    },
+    {
+      "directory": "/scratch/user/shlokmishra08/code/hmc_opt/results/stat605/final-20261123/main-1",
+      "summary_sha256": "e4402ccef008d2a8172bc39e7c2363ff0f5fa803d293424637af334b39d50e12"
+    }
+  ],
+  "paths": 132,
+  "budget": 200000,
+  "smoke": false,
+  "parameters": {
+    "FIXED_RHGD": {
+      "period_steps": 512
+    },
+    "ENDPOINT_RHGD": {
+      "beta": 0
+    },
+    "KINETIC_RHGD": {
+      "beta": 0
+    }
+  }
+}

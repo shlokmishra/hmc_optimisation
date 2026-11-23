@@ -33,7 +33,17 @@ checked against the primary paper. Failure reporting, finite-state checks, input
 provenance and allocation guards were strengthened without changing finite
 trajectories in 24 bounded parity cases. The submitted laptop figures/tables are
 carried forward; the full 100,000-update sweep was not rerun for this review.
-See [the AGD summary](AGD_RESTART_SUMMARY.md). A common matched benchmark remains open.
+See [the AGD summary](AGD_RESTART_SUMMARY.md). Integration with the common benchmark remains open.
+
+**Spectral contribution reviewed, November 23:** Leo's configurable quadratic
+harness, clustered spectra, controlled modal energies, saved-data reporting and
+submitted 100D Grace pilot are integrated. It currently includes the five
+historical methods, not the newly contributed AGD/RCM/fixed-time variants.
+The submitted tables count 117 paths at 2,000 gradients each: 36/39 rescaled-common
+paths sustain 1e-4, while 0/39 equal-energy paths reach it. These are bounded pilot
+results, with eventual rankings on censored cases unresolved. Raw Grace traces
+are not in this checkout; their shared location and manifest remain a handoff task.
+See [the report and review scope](spectral/REPORT.md).
 
 ## What we already have
 
@@ -41,14 +51,14 @@ See [the AGD summary](AGD_RESTART_SUMMARY.md). A common matched benchmark remain
 | --- | --- | --- |
 | Representative RHGD quadratic replication | Figure 1 exact and misspecified strong-convexity cases; weak quadratic extension | Substantially done, with the caveats below |
 | Selected RCM replication | Three variants, correctness/budget checks, seed-605 Section 5.1 setup example and small shared-fixture pilot | Implemented for selected variants; full common comparison remains |
-| Restarted AGD | Historical `core.ar_step` plus reviewed variable-theta function/gradient/fixed restart, source-style figures and reported sensitivity | Implemented; common harness and pinned-environment final study remain |
+| Restarted AGD | Historical `core.ar_step` plus reviewed variable-theta function/gradient/fixed restart, source-style figures and reported sensitivity | Implemented; new variants need shared-harness adapters and a final common study |
 | Fair AGD/CAGD/RHGD comparison | Two 100D fixed quadratics, equal distinct-gradient budgets and three timing repetitions | Done for this limited historical suite |
-| Vary spectra at fixed dimension and endpoints | Linear and logarithmic spectra with d=100, mu=5e-5, L=500 | Partial: clustered spectra and controlled modal energies remain |
+| Vary spectra at fixed dimension and endpoints | Linear, logarithmic and clustered spectra; common and controlled-energy starts; five-method 100D pilot | Implemented and piloted; broader method-family comparison remains |
 | Test mu misspecification | Figure 1 exact mu versus supplied 0.01 on the same matrix | One overestimate done; controlled broader sensitivity remains |
 | Stepsize sensitivity | Paper settings and historical variants exist | No unified course sensitivity experiment completed |
 | Adaptive RHGD resets with unchanged state update | Frozen power-reset RHGD, strict arming and zero-velocity reset | One useful rule implemented and evaluated |
 | Fixed-time RHGD reset control | Constant-step quadratic implementation, reset-boundary/parity/cost tests, capped smoke command | Implemented; matched performance comparison not run |
-| Kinetic-energy, normalized/mean-dissipation resets | Discussed in proposal/history | Need precise discrete definitions, implementation, tests, and comparison |
+| Additional kinetic-energy/mean-dissipation RHGD resets | Discussed in proposal/history; selected RCM rules are separate methods | Not implemented for RHGD; defer before expanding scope if time is short |
 | Logistic extension | Original RHGD logistic replays and earlier power-reset comparison | Reusable preliminary evidence; not a completed course-wide comparison |
 | Final group report and presentation | Proposal PDF only | Still to do |
 
@@ -101,6 +111,7 @@ handoffs, and restricted two-mode proof are archived locally. Those branches
 contain useful negative evidence, but implementing them is not required by the
 proposal. Do not treat the old theory as a general guarantee for a new rule.
 
-The selected RCM family now has a checked implementation and setup example.
-Next integrate the method families with shared cost/output conventions before
-running the main spectral comparison. See the [ordered plan](EXPERIMENT_PLAN.md).
+All four streams now have source contributions. Next integrate the newly
+contributed method variants into the shared harness, including variable rejected
+work for RCM, freeze a bounded comparison, share its raw artifacts, and assemble
+the report/slides. See the [ordered plan](EXPERIMENT_PLAN.md).

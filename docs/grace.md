@@ -34,8 +34,9 @@ Install Python 3.13, then use the same setup and activation commands. Off Grace,
 setup uses `python3.13` (or `python3` if it is version 3.13), and activation skips
 cluster modules. The tested local entry points use Bash, for example macOS/Linux
 or a Linux environment on Windows. Bundle portability is checked on Grace;
-the pinned environment and local spectral check were also verified on Apple
-Silicon with macOS 26 and Python 3.13.13. When the wheels use Apple Accelerate,
+Leo reports verifying the pinned environment and local spectral check on Apple
+Silicon with macOS 26 and Python 3.13.13. The integration review ran on Grace.
+When the wheels use Apple Accelerate,
 the environment check and spectral runner select and verify single-thread mode
 for the calling thread through the Accelerate BLAS runtime.
 

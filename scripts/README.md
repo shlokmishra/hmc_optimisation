@@ -10,6 +10,10 @@ Run from the repository root after `source scripts/activate_env.sh`.
 | `stat605.py smoke --output …` | Tiny self-contained five-method demonstration |
 | `stat605.py fixed-time-smoke --output …` | Periodic RHGD check on both shared quadratic inputs |
 | `stat605.py agd --smoke --config configs/stat605/agd_smoke.json --output …` | Bounded AGD check; full configured runs require Slurm |
+| `stat605.py spectral --output …` | Bounded five-method matched spectral software check |
+| `stat605.py spectral-design --output …` | Plot controlled starting energies without optimizer updates |
+| `stat605.py spectral-report --run … --output …` | Rebuild tables/figures from saved traces into a fresh directory |
+| `stat605_spectral_pilot.slurm` | Bounded quadratic pilot; supply a verified current account/partition |
 | `package_project.py --output …` | Package clean group sources with a hash manifest |
 | `reproduce_rhgd.py plan` | Validate pinned inputs and list historical panel settings |
 | `reproduce_rhgd.py run --case … --smoke --output …` | Short author-cell replay |

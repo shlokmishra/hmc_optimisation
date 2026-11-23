@@ -14,6 +14,29 @@ comparison would still need a frozen configuration and the other owners'
 checked adapters where applicable.
 [Results and reproduction commands](spectral/REPORT.md)
 
+**November 23 integration priority.** The AGD, RCM, fixed-time RHGD and spectral
+contributions are now in the shared source. The spectral harness currently runs
+only the five historical methods. Before the presentation:
+
+1. Kwonsang, Leonardo and Shlok add their checked method adapters with Leo's
+   help. RCM needs variable/rejected-work accounting; the current `Method`
+   contract assumes a fixed gradient cost per update. Preserve both AGD recurrence
+   definitions and declare how function-controller objectives are charged.
+2. Agree and freeze one bounded combined quadratic design: methods, periods,
+   stepsizes, supplied mu, starts, targets, budgets and explicit seeds. Run it in
+   an allocation and retain misses/failures. Longer censored cases are a scope
+   choice, not evidence of eventual failure or a reason to retune after results.
+3. Share Leo's raw pilot traces/summary and the final run in agreed artifact
+   storage, with hashes, so another member can rebuild the committed tables and
+   figures. Git contains the submitted figures/CSVs, not that raw pilot directory.
+4. Each owner supplies their methods/results text and one main figure; combine
+   into the final report/slides, explain the historical power-reset result and
+   controlled-energy pilot, and check the course rubric and deadline.
+
+Recommended scope if time is short: finish that combined comparison and writing
+before adding more RHGD reset variants or the optional logistic validation.
+Broader mu/stepsize sensitivity remains below; declare any deferred items.
+
 Quadratics are the core controlled study. Plan one common regularized-logistic
 validation after the quadratic suite is ready; it can be deferred if time is
 insufficient. Existing logistic inputs and preliminary results are already shared.

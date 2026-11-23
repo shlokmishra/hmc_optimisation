@@ -23,12 +23,13 @@ The smoke command writes `smoke.png`, five small method traces, and `summary.jso
 It demonstrates working software; it is not a research comparison. Choose a fresh
 output directory for each run. Grace uses the project Python modules; local
 computers use a standard virtual environment. See [environment details](docs/grace.md).
-The non-Grace installation path and other operating systems have not been tested.
+Leo reports verifying the pinned environment and numerical checks on Apple Silicon
+with Python 3.13; the integration review ran on Grace.
 
-A source checkout without the optional author notebook is expected to pass 90
+A source checkout without the optional author notebook is expected to pass 146
 checks and skip 19 replay checks. Those skips are explained by
 [reproduction setup](docs/REPRODUCTION.md); they do not prevent course work.
-The owner's checkout with pinned upstream inputs has passed all 109 checks.
+The owner's checkout with pinned upstream inputs has passed all 165 checks.
 
 ## 2. What exists now
 
@@ -52,9 +53,12 @@ versus 127,424. Randomized RHGD entries are five-seed medians. Restarted AGD use
 The old 20% work-and-time gate against restarted AGD failed. Preserve that result.
 See the [status audit](docs/PROJECT_STATUS.md) and [saved evidence](docs/evidence/README.md).
 
-These are inherited results from Shlok's earlier work, not new group experiments.
-The general course comparison harness, clustered spectra,
-and a unified logistic comparison remain to be completed. The RCM contribution
+The quoted historical results are inherited from Shlok's earlier work. Leo's
+course contribution adds a configurable five-method quadratic harness, clustered
+spectra, and matched common/rescaled/equal-energy starts. His submitted 100D Grace
+pilot and figures are described in [the spectral report](docs/spectral/REPORT.md).
+The RCM, variable-theta AGD and fixed-time RHGD adapters still need integration
+into that harness; a unified logistic comparison remains open. The RCM contribution
 is described in [its replication note](docs/RCM_REPLICATION.md); it covers three
 selected variants and a new seeded instance, not the complete published figure.
 The [AGD summary](docs/AGD_RESTART_SUMMARY.md) distinguishes the reported laptop
@@ -70,7 +74,7 @@ this is a proposed working split, not a record of everyone's agreement.
 | **Kwonsang** | Restarted AGD: implementation, source-style comparison and preliminary sensitivity results are contributed; integrate with the common benchmark and explain the results. | Checked AGD variants, a qualified source-style comparison, and restart/mu sensitivity interpretation. |
 | **Leonardo** | Conservative/RCM methods: three variants and the seeded example are implemented; integrate them into the common comparison and explain the restart criteria/results. | Tested RCM implementation, a qualified setup replication, and a comparison/explanation of its restart criteria. |
 | **Shlok** | RHGD and power reset: carry forward verified replays/results, integrate the methods with the shared runner, and compare the implemented fixed-time control using declared periods. | Checked RHGD controls, a mechanism/result figure, and a clear account of the existing power-reset gain and its limits. |
-| **Leo** | Spectral geometry and shared comparison: start with the existing methods/fixtures, add clustered spectra and controlled initial modal energies, and assemble common result tables. | Reusable problem/benchmark utilities and spectral/initial-energy comparison figures. |
+| **Leo** | Spectral geometry and shared comparison: utilities, controlled starts and five-method pilot are contributed; help integrate the other adapters and share the raw pilot artifacts. | Reproducible combined result tables and spectral/initial-energy interpretation. |
 
 Each person owns their method/problem checks, one main figure or table, and the
 matching final-report subsection. All four contribute to interpretation and the
@@ -79,9 +83,9 @@ a new successful optimizer or general theorem is not a completion requirement.
 
 The fixed-time control now lives in `src/stat605/rhgd.py`, the RCM generator
 in `src/stat605/rcm.py`, and restarted AGD in `src/stat605/agd.py`; the original/
-power-reset methods still use the frozen reference code. Suggested new files
-for the shared infrastructure are `src/stat605/problems.py`/`benchmark.py`, with
-corresponding tests. Those are proposed locations, not existing implementations.
+power-reset methods still use the frozen reference code. Shared infrastructure
+now lives in `src/stat605/problems.py`, `benchmark.py`, `spectral_suite.py` and
+`spectral_reporting.py`, with correctness tests.
 Keep frozen historical code intact.
 For three streams, combine Shlok and Leo into a joint Hamiltonian/spectral stream.
 
@@ -102,11 +106,12 @@ historical gradient `A @ x`. Matrices retain their original floating-point bytes
 The logistic objective is `mean(logaddexp(0, -b*(A@x))) + (1e-4/2)*dot(x,x)`;
 its reference minimum is not supplied and must not be assumed to be zero.
 
-The reusable five-method runner is `src/power_reset_spectral_comparison/core.py`.
+The historical five-method runner is `src/power_reset_spectral_comparison/core.py`.
 `B` means power-reset RHGD. The underlying frozen step/reset source is
 `study/B/src/power_reset.py`. The old evidence/experiment tools still expect large
-private raw results and are not the new course harness. Use the core recurrence
-and small fixtures to start; the full configurable harness remains new work.
+private raw results. The course harness starts with these five recurrences and
+the compact fixtures. Run `python scripts/stat605.py spectral --output tmp/my-spectral-check`
+for a bounded local example; see [the spectral report](docs/spectral/REPORT.md).
 
 At the first group sync, agree common problem inputs, start, method parameters,
 gradient budget, and seed, plus output fields: current loss, iteration, actual and
@@ -117,8 +122,8 @@ the shared problems. Keep each method's integrator and source settings explicit.
 ## 5. Experiment and collaboration plan
 
 1. Everyone clones the repo, runs smoke/tests, and reads their method's source.
-2. Method owners validate one small example; Leo prepares the shared interface
-   and matched linear/log/clustered fixtures. Agree budgets and freeze settings.
+2. Method owners add checked adapters to Leo's shared interface and matched
+   linear/log/clustered problems. Agree budgets and freeze settings.
 3. Compare the method families on quadratics using the same problems and actual
    gradient counts. Control initial total objective when isolating modal-energy
    effects; retain the historical common-start convention as a separate comparison.

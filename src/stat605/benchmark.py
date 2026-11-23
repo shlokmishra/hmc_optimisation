@@ -255,18 +255,27 @@ def run_benchmark(
     global_power = np.empty(samples)
     completed = attempted = reported_objectives = 0
     failure = None
+    failed_trial = {}
     setup_seconds = perf_counter() - start
 
     tick = perf_counter()
-    step = method.prepare(oracle, x, settings)
+    try:
+        with np.errstate(over="ignore", invalid="ignore", divide="ignore"):
+            step = method.prepare(oracle, x, settings)
+    except (FloatingPointError, OverflowError) as exc:
+        failure = f"method initialization: {exc}"
     optimizer_seconds = perf_counter() - tick
     trace["optimizer_seconds"][0] = optimizer_seconds
     tick = perf_counter()
     with np.errstate(over="ignore", invalid="ignore", divide="ignore"):
-        trace["loss"][0] = oracle.loss(x)
         reported_objectives += 1
+        try:
+            trace["loss"][0] = oracle.loss(x)
+        except (FloatingPointError, OverflowError) as exc:
+            trace["loss"][0] = np.nan
+            failure = f"initial objective: {exc}"
         trace["objectives"][0] = oracle.objectives
-        if not np.isfinite(trace["loss"][0]):
+        if failure is None and not np.isfinite(trace["loss"][0]):
             failure = "nonfinite initial objective"
         diagnostic_seconds = perf_counter() - tick
         for k in range(updates):
@@ -277,16 +286,20 @@ def run_benchmark(
             oracle.begin()
             try:
                 result = step(x, k)
-            except FloatingPointError as exc:
+            except (FloatingPointError, OverflowError) as exc:
                 failure = str(exc)
                 break
             finally:
                 optimizer_seconds += perf_counter() - tick
 
             tick = perf_counter()
-            loss = oracle.loss(result.x)
             reported_objectives += 1
-            if not (np.isfinite(loss) and np.isfinite(result.auxiliary).all()):
+            try:
+                loss = oracle.loss(result.x)
+            except (FloatingPointError, OverflowError) as exc:
+                loss = np.nan
+                failure = f"endpoint objective: {exc}"
+            if failure is None and not (np.isfinite(loss) and np.isfinite(result.auxiliary).all()):
                 failure = "nonfinite endpoint or auxiliary state"
             if result.velocity is not None and not np.isfinite(result.velocity).all():
                 failure = "nonfinite proposed velocity"
@@ -295,6 +308,15 @@ def run_benchmark(
                 global_power[k] = result.power
             diagnostic_seconds += perf_counter() - tick
             if failure is not None:
+                failed_trial = {
+                    "failed_x": np.array(result.x, copy=True),
+                    "failed_auxiliary": np.array(result.auxiliary, copy=True),
+                    "failed_loss": np.array(loss),
+                }
+                for key in ("gradient", "velocity"):
+                    value = getattr(result, key)
+                    if value is not None:
+                        failed_trial[f"failed_{key}"] = np.array(value, copy=True)
                 break
             if oracle.numerical - trace["gradients"][k] != method.gradient_cost:
                 raise RuntimeError(
@@ -320,6 +342,7 @@ def run_benchmark(
     trace["power_iteration"] = np.arange(1, sampled + 1, dtype=np.int64)
     trace["modal_power"] = modal_power[:sampled]
     trace["global_power"] = global_power[:sampled]
+    trace.update(failed_trial)
     record = {
         "method": method.name,
         "seed": seed,

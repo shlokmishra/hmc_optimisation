@@ -1,6 +1,7 @@
 """Generate the quadratic comparison tables and figures from saved run evidence."""
 
 import csv
+import hashlib
 import json
 from collections import defaultdict
 from pathlib import Path
@@ -348,6 +349,12 @@ def write_report(run_dir, output=None):
     if summary["status"] not in {"passed", "failure"}:
         raise ValueError("Reporting requires a finished suite so every planned run is counted")
     config, runs = summary["config"], summary["runs"]
+    for run in runs:
+        expected = run.get("trace_sha256")
+        if expected is not None:
+            actual = hashlib.sha256((run_dir / run["trace"]).read_bytes()).hexdigest()
+            if actual != expected:
+                raise ValueError(f"Trace digest differs from the saved run: {run['trace']}")
     scope = PURPOSES.get(config["purpose"], config["purpose"])
     if output.resolve() != run_dir.resolve():
         output.mkdir(parents=True, exist_ok=False)

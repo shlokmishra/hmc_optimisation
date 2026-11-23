@@ -77,8 +77,33 @@ def _config(path):
         if len(set(seeds)) != len(seeds):
             raise ValueError(f"{name} seeds must be distinct")
     targets = config["targets"]
-    if not targets or len(set(targets)) != len(targets):
+    if (
+        not targets
+        or len(set(targets)) != len(targets)
+        or any(not np.isfinite(t) or t <= 0 for t in targets)
+    ):
         raise ValueError("Specify distinct positive targets")
+    for key, minimum in (("gradient_budget", 0), ("power_diagnostic_steps", 0), ("cap", 1)):
+        if type(config[key]) is not int or config[key] < minimum:
+            raise ValueError(f"{key} must be an integer of at least {minimum}")
+    if not np.isfinite(config["eta"]) or config["eta"] <= 0:
+        raise ValueError("eta must be positive and finite")
+    if any(METHODS[name].uses_mu for name in config["seeds"]):
+        mu = config["supplied_mu"]
+        if mu is None or not np.isfinite(mu) or mu <= 0:
+            raise ValueError("Selected methods require positive finite supplied_mu")
+    if config["purpose"] == "local_check":
+        paths = (
+            len(config["spectra"])
+            * len(config["starts"])
+            * sum(len(seeds) for seeds in config["seeds"].values())
+        )
+        if (
+            config["problem"]["dimension"] > 100
+            or paths > 128
+            or paths * config["gradient_budget"] > 20000
+        ):
+            raise ValueError("local_check is capped at dimension 100, 128 paths and 20000 total G")
     return config, data
 
 
@@ -86,6 +111,8 @@ def _prepare(config_path, output, *, design_only):
     config, data = _config(Path(config_path))
     if not design_only and config["purpose"].startswith("grace_") and not os.getenv("SLURM_JOB_ID"):
         raise ValueError("Run this benchmark inside a verified Grace Slurm allocation.")
+    if config["problem"]["dimension"] > 100 and not os.getenv("SLURM_JOB_ID"):
+        raise ValueError("Problem designs above dimension 100 require a Grace Slurm allocation.")
     pools = single_thread_pools()
     output.mkdir(parents=True, exist_ok=False)
     (output / "config.json").write_bytes(data)
@@ -175,11 +202,15 @@ def spectral_suite(output, config_path=CONFIGS / "spectral_check.json"):
                 np.savez_compressed(trace, **arrays)
                 metadata["runs"].append(
                     dict(
-                        record, spectrum=spectrum, start=start, trace=str(trace.relative_to(output))
+                        record,
+                        spectrum=spectrum,
+                        start=start,
+                        trace=str(trace.relative_to(output)),
+                        trace_sha256=_digest(trace),
                     )
                 )
-        # A stopped job retains all previous matched cases and their charged work.
-        _save_json(output / "summary.json", metadata)
+                # A stopped job retains every completed path and its charged work.
+                _save_json(output / "summary.json", metadata)
     complete = all(run["status"] == "budget_complete" for run in metadata["runs"])
     metadata["status"] = "passed" if complete else "failure"
     _save_json(output / "summary.json", metadata)

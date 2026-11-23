@@ -2,6 +2,12 @@
 
 Leo Oh · STAT 605 · November 22, 2026
 
+Integration review, November 23: the numerical pilot tables and submitted figures
+below are carried forward from Leo's branch. The review checks source parity on
+bounded cases and the consistency of the committed crossing tables; it does not
+rerun the full pilot or independently audit the absent raw Grace traces. Those
+traces must be shared before other collaborators can reproduce these figures.
+
 On a strongly convex quadratic, how much does a restart method’s performance depend on the curvature of the problem, and how much on where the initial error lies? We compared five methods on three 100-dimensional quadratics with the same condition number. At an initial objective of one, 36 of 39 paths sustained a gap of $10^{-4}$ when we kept the original proportions of energy in each direction. After we gave every direction equal energy, none of the 39 matched paths reached that target within 2,000 gradient evaluations. Even with energy held equal, every method and seed finished with its smallest gap on the linear spectrum and its largest on the clustered spectrum.
 
 ## Matched problems and starting conditions
@@ -73,6 +79,16 @@ The earlier, longer common-start study provides a separate comparison. At a sust
 The pilot used source commit `4f74df8`, Python 3.13.5, float64 and one OpenBLAS thread on Grace. It spent 234,000 paid gradient evaluations for 324,000 literal requests, and recorded 180,117 objective evaluations. The downloaded source and fixture digests match the recorded run. All first and sustained crossings were checked against the saved loss traces. The fixed-budget table uses the last entry of each trace’s `loss` array, grouped by spectrum, start and method. The earlier [eight-dimensional software check](check-work-to-target.csv) is retained separately.
 
 The downloaded run directory is `tmp/stat605-leo/spectral-pilot-20654076` in Leo’s checkout. The original Slurm template writes to `results/stat605/spectral-pilot-20654076` on Grace by default. From the project root in Bash, rebuild the figures and target tables from the downloaded traces into a fresh output directory.
+
+These are contributor-local paths; neither directory is included in Git. Share
+the complete run directory (`config.json`, `summary.json`, and `traces/`) with a
+file-hash manifest through the group's agreed artifact storage. Until then, the
+committed PNGs/CSVs and [PDF report](leo-spectral-report.pdf) are the shared results.
+For newly generated runs, the runner records each trace hash and saves a partial
+summary after every completed path. Reporting verifies trace hashes when present;
+older summaries remain readable. `local_check` is limited to dimension 100,
+128 paths and 20,000 total gradients. Larger studies require the Grace purpose
+and a suitable Slurm allocation; designs above dimension 100 also require one.
 
 ```bash
 source scripts/activate_env.sh

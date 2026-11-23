@@ -1,0 +1,29 @@
+{
+  "purpose": "agd_software_smoke_not_research_evidence",
+  "cases": [
+    {
+      "name": "quadratic_paper",
+      "problem": {"fixture": "quadratic_paper.npz", "mu": 0.00005, "L": 500.0},
+      "iterations": 32,
+      "targets": [1e-8],
+      "methods": [
+        {"label": "none", "restart": "none"},
+        {"label": "fixed", "restart": "fixed", "interval": 8},
+        {"label": "function", "restart": "function"},
+        {"label": "gradient", "restart": "gradient"}
+      ]
+    },
+    {
+      "name": "quadratic_log",
+      "problem": {"fixture": "quadratic_log.npz", "mu": 0.00005, "L": 500.0},
+      "iterations": 32,
+      "targets": [1e-8],
+      "methods": [
+        {"label": "none", "restart": "none"},
+        {"label": "fixed", "restart": "fixed", "interval": 8},
+        {"label": "function", "restart": "function"},
+        {"label": "gradient", "restart": "gradient"}
+      ]
+    }
+  ]
+}

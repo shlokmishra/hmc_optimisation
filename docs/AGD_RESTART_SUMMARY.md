@@ -11,6 +11,14 @@ runs used Python 3.12.16, not the project's pinned 3.13. The 100,000-update budg
 and the targets are provisional until the group freezes them. Nothing here
 supports a general claim about restart.
 
+**Integration review, November 23:** the finite trajectories and cost counters
+were checked bitwise against the submitted implementation on 24 bounded cases.
+Failure handling now rejects invalid initial/extrapolated states, preserves paid
+failed work, and prevents failed runs from claiming sustained targets. Input
+hashes and allocation/smoke guards were added. The original result tables and
+three submitted PNGs below are carried forward from Kwonsang's laptop study;
+the full 100,000-update sensitivity sweep was not rerun during this review.
+
 ## Status of the assigned tasks
 
 | Task | Status | Evidence |
@@ -36,6 +44,10 @@ y_k     = x_k + beta_k * (x_k - x_{k-1})
 `q = 0` uses no mu, `q = q* = mu/L` is the strongly convex choice, and `q = 1` is
 gradient descent. The two adaptive rules are the paper's:
 
+This variable-theta scheme is Algorithm 1. The historical strongly-convex AGD
+baseline uses the paper's constant-momentum Algorithm 2, so their exact-mu target
+counts need not match. The q=0 gradient-restart methods are compared separately.
+
 - **Function restart:** restart when `f(x_k) > f(x_{k-1})`.
 - **Gradient restart:** restart when `grad f(y_{k-1})^T (x_k - x_{k-1}) > 0`.
 
@@ -59,10 +71,11 @@ about later updates. "Not reached" entries are censored, not omitted.
 
 ![Replication figure](agd_figures/replication.png)
 
-The paper states only the following: Figure 1 uses n = 200 with `q* = 4.1e-5`;
-Figure 3 uses n = 500 with an optimal fixed-interval bound of 700 and discusses
-intervals 400 and 700. We chose a seeded linear spectrum, a Gaussian start and
-the iteration counts. The Figure 3 condition number (8,289) is back-calculated from
+The primary PDF shows Figure 1 at n = 200 with `q* = 4.1e-5`, its q-value legend,
+and an axis extending to 5,000 iterations. Figure 3 uses n = 500, discusses fixed
+intervals 400 and 700, and displays up to 2,000 iterations. We chose a seeded
+linear spectrum and Gaussian start; our 4,000-update Figure 3-style run extends
+that displayed range. The Figure 3 condition number (8,289) is back-calculated from
 `e * sqrt(8 * kappa) = 700`. The lower axis limit is clipped at 1e-30.
 
 **Estimates of q (left, n = 200).**
@@ -155,9 +168,11 @@ budget, so it is weak evidence that the gap would stay below the target.
   [the status audit](PROJECT_STATUS.md). The new implementation is consistent with
   the old one on the shared problems.
 - **The two adaptive rules are close.** Function restart is ahead by 45 gradients
-  on the linear spectrum and 1,322 on the log spectrum. It pays one objective
-  evaluation per update that gradient restart does not, so it is not cheaper in
-  total work.
+  on the linear spectrum and 1,322 on the log spectrum. Its controller requires
+  objective values, while gradient restart uses a dot product. This runner pays
+  for diagnostic objectives for every rule, so the actual objective counts and
+  required controller counts must remain distinct. Gradient counts alone do not
+  establish an overall cost or runtime ranking.
 - **Overestimating mu is costly and restart does not repair it.** A 10× overestimate
   costs 3.4× (linear) and 3.5× (log) the exact count; 100× does not reach 1e-8 in
   the budget. With `q` at or above `q*` the restart tests fire at most four times
@@ -192,8 +207,9 @@ budget, so it is weak evidence that the gap would stay below the target.
 - One matrix and one start per case; no repeated starts or problem draws.
 - The replication matrices are our own choice, so agreement with the paper is
   qualitative.
-- The paper was read through an HTML conversion; its formulas were not checked
-  against the TeX source.
+- The original study used an HTML conversion. Integration review checked the
+  recurrence, restart inequalities, and displayed figure extents against the
+  [primary PDF](https://arxiv.org/pdf/1204.3982v1); no exact source-array replay is claimed.
 - Python 3.12.16 and NumPy 2.5.3 on a laptop, one BLAS thread. Timing was not
   analysed; wall time includes the per-update objective evaluation for every rule.
 - Chart colours were taken from a standard palette; the colour-blindness check
@@ -201,23 +217,34 @@ budget, so it is weak evidence that the gap would stay below the target.
 
 ## Reproduce
 
-Raw traces are in `tmp/agd-odonoghue-20261122/` and `tmp/agd-sensitivity-20261122/`,
-which are not tracked by Git. Each has a `summary.json` with the config, hashes and
-all crossings. From bash:
+The contributor's original raw traces are under `tmp/agd-odonoghue-20261122/` and
+`tmp/agd-sensitivity-20261122/` on that machine and are not included in Git.
+Those runs wrote `summary.json` with the config, hashes and crossings.
+For a bounded software check on the shared inputs, from bash:
 
 ```bash
 source scripts/activate_env.sh
 python -m pytest tests/test_stat605_agd.py
-python scripts/stat605.py agd --config configs/stat605/agd_odonoghue.json --output tmp/<new-dir-1>
-python scripts/stat605.py agd --config configs/stat605/agd_sensitivity.json --output tmp/<new-dir-2>
-python scripts/plot_agd_summary.py --replication tmp/<new-dir-1> --sensitivity tmp/<new-dir-2> --output docs/agd_figures
+python scripts/stat605.py agd --smoke --config configs/stat605/agd_smoke.json --output tmp/agd-smoke
 ```
 
-The two runs take about 2 and 40 seconds.
+The smoke command caps work at 2,000 gradients total and dimension 100. Full
+configured runs require an active Slurm allocation; then use new output paths:
+
+```bash
+python scripts/stat605.py agd --config configs/stat605/agd_odonoghue.json --output tmp/<new-dir-1>
+python scripts/stat605.py agd --config configs/stat605/agd_sensitivity.json --output tmp/<new-dir-2>
+python scripts/plot_agd_summary.py --replication tmp/<new-dir-1> --sensitivity tmp/<new-dir-2> --output tmp/<new-figure-dir>
+```
+
+The contributor reported about 2 and 40 seconds on the laptop; those are not
+Grace allocation estimates or matched optimizer timings. Existing figure output
+directories are refused so the submitted PNGs are not overwritten.
 
 ## Open items for the group
 
 - Freeze the common start, budget, targets and output fields, then rerun under them.
-- Decide whether results must come from the pinned Python 3.13 environment.
+- Rerun final matched experiments in the pinned Python 3.13 environment and
+  retain the original laptop study as separately identified evidence.
 - Agree a storage location for raw traces.
 - Add modal diagnostics to test the spectrum explanation above.

@@ -66,7 +66,7 @@ def main():
     parser.add_argument("--sensitivity", required=True, type=Path)
     parser.add_argument("--output", required=True, type=Path)
     args = parser.parse_args()
-    args.output.mkdir(parents=True, exist_ok=True)
+    args.output.mkdir(parents=True, exist_ok=False)
 
     fig1 = sweep(
         [

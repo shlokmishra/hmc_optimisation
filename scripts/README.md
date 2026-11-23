@@ -9,6 +9,7 @@ Run from the repository root after `source scripts/activate_env.sh`.
 | `check_env.py` | Check numerical libraries, environment, and plotting |
 | `stat605.py smoke --output …` | Tiny self-contained five-method demonstration |
 | `stat605.py fixed-time-smoke --output …` | Periodic RHGD check on both shared quadratic inputs |
+| `stat605.py agd --smoke --config configs/stat605/agd_smoke.json --output …` | Bounded AGD check; full configured runs require Slurm |
 | `package_project.py --output …` | Package clean group sources with a hash manifest |
 | `reproduce_rhgd.py plan` | Validate pinned inputs and list historical panel settings |
 | `reproduce_rhgd.py run --case … --smoke --output …` | Short author-cell replay |

@@ -19,10 +19,13 @@ insufficient. Existing logistic inputs and preliminary results are already share
   from RHGD; verify a hand-computed step and the selected source example.
   Leonardo's three variants and seed-605 setup replication are reviewed in
   `docs/RCM_REPLICATION.md`; this is not exact published-array parity or RCM-grad.
-- [ ] Add function-increase restarted AGD alongside the existing gradient-restart
+- [x] Add function-increase restarted AGD alongside the existing gradient-restart
   recurrence. Specify strictness, index ordering, retained point, and state reset.
-- [ ] Document the selected restarted-AGD source benchmark and compare it at its
+- [x] Document the selected restarted-AGD source benchmark and compare it at its
   source settings. Existing implementation tests alone do not replicate a paper.
+  Kwonsang's source-style figures use declared new matrices/starts and a
+  Figure-3-style iteration extension. See `docs/AGD_RESTART_SUMMARY.md`; these are
+  qualitative comparisons, with the final common pinned-environment run still open.
 - [x] Implement the constant-step quadratic fixed-time RHGD control with unchanged
   numerical step, endpoint retention, exact reset clock and gradient accounting.
   `src/stat605/rhgd.py` and `fixed-time-smoke` provide this; benchmark periods and

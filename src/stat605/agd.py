@@ -107,9 +107,9 @@ def run_agd(
     """
     if restart not in RESTARTS:
         raise ValueError(f"restart must be one of {RESTARTS}, got {restart!r}")
-    if not 0.0 <= q <= 1.0:
+    if np.ndim(q) != 0 or not np.isfinite(q) or not 0.0 <= q <= 1.0:
         raise ValueError(f"q must lie in [0, 1], got {q}")
-    if eta <= 0:
+    if np.ndim(eta) != 0 or not np.isfinite(eta) or eta <= 0:
         raise ValueError(f"eta must be positive, got {eta}")
     if restart == "fixed":
         if interval is None or int(interval) != interval or interval < 1:
@@ -117,15 +117,31 @@ def run_agd(
         interval = int(interval)
     elif interval is not None:
         raise ValueError("interval is only used by the fixed restart rule")
+    if (
+        isinstance(iterations, (bool, np.bool_))
+        or not isinstance(iterations, (int, np.integer))
+        or iterations < 0
+    ):
+        raise ValueError("iterations must be a nonnegative integer")
 
     n = int(iterations)
     start = perf_counter()
     x = np.array(x0, dtype=np.float64)
+    if x.ndim != 1 or not x.size or not np.isfinite(x).all():
+        raise ValueError("x0 must be a finite nonempty vector")
     y = x.copy()
     theta = 1.0
     age = 0
+    initial_gradients, initial_objectives = oracle.gradients, oracle.objectives
+    failure = None
     f = np.empty(n + 1)
-    f[0] = oracle.loss(x)
+    try:
+        with np.errstate(over="ignore", invalid="ignore"):
+            f[0] = oracle.loss(x)
+        if not np.isfinite(f[0]):
+            failure = "nonfinite initial objective"
+    except (FloatingPointError, OverflowError) as error:
+        f[0], failure = np.nan, f"initial objective: {error}"
     fired = np.zeros(n, dtype=bool)
     statistic = np.full(n, np.nan)
     states = None
@@ -133,38 +149,67 @@ def run_agd(
         states = {"x": np.empty((n + 1, len(x))), "y": np.empty((n + 1, len(x)))}
         states["x"][0] = x
         states["y"][0] = y
-    completed, failure = 0, None
+    completed = 0
     controller_dots = 0
+    failed_arrays = {}
 
     for k in range(n):
-        g = oracle.grad(y)
-        x_new = y - eta * g
-        f_new = oracle.loss(x_new)
-        age += 1
-        if restart == "gradient":
-            stat = float(g @ (x_new - x))
-            controller_dots += 1
-            fire = stat > 0.0
-        elif restart == "function":
-            stat = f_new - f[k]
-            fire = f_new > f[k]
-        elif restart == "fixed":
-            stat = float(age)
-            fire = age == interval
-        else:
-            stat = 0.0
-            fire = False
-        if not (np.isfinite(f_new) and np.isfinite(stat) and np.all(np.isfinite(x_new))):
-            failure = "nonfinite endpoint, objective or restart statistic"
+        if failure:
             break
+        g = x_new = f_new = y_new = None
+        try:
+            with np.errstate(over="ignore", invalid="ignore", divide="ignore"):
+                g = np.asarray(oracle.grad(y), dtype=np.float64)
+                if g.shape != x.shape:
+                    raise ValueError("gradient shape differs from x0")
+                x_new = y - eta * g
+                f_new = oracle.loss(x_new)
+                age += 1
+                if restart == "gradient":
+                    stat = float(g @ (x_new - x))
+                    controller_dots += 1
+                    fire = stat > 0.0
+                elif restart == "function":
+                    stat = f_new - f[k]
+                    fire = f_new > f[k]
+                elif restart == "fixed":
+                    stat = float(age)
+                    fire = age == interval
+                else:
+                    stat = 0.0
+                    fire = False
+                if not (
+                    np.isfinite(f_new)
+                    and np.isfinite(stat)
+                    and np.all(np.isfinite(x_new))
+                    and np.all(np.isfinite(g))
+                ):
+                    failure = "nonfinite endpoint, gradient, objective or restart statistic"
+                else:
+                    if fire:
+                        theta_new, y_new = 1.0, x_new.copy()
+                    else:
+                        theta_new = next_theta(theta, q)
+                        y_new = x_new + momentum(theta, theta_new) * (x_new - x)
+                    if not (np.isfinite(theta_new) and np.all(np.isfinite(y_new))):
+                        failure = "nonfinite acceleration state"
+        except (FloatingPointError, OverflowError) as error:
+            failure = f"numerical trial failure: {error}"
+        if failure:
+            failed_arrays = {
+                key: np.array(value, copy=True)
+                for key, value in (
+                    ("failed_gradient", g),
+                    ("failed_x", x_new),
+                    ("failed_f", f_new),
+                    ("failed_y", y_new),
+                )
+                if value is not None
+            }
+            break
+        theta, y = theta_new, y_new
         if fire:
-            theta = 1.0
-            y = x_new.copy()
             age = 0
-        else:
-            theta_new = next_theta(theta, q)
-            y = x_new + momentum(theta, theta_new) * (x_new - x)
-            theta = theta_new
         x = x_new
         f[k + 1] = f_new
         fired[k] = fire
@@ -182,11 +227,14 @@ def run_agd(
         "statistic": statistic[:completed],
         "x_final": x,
         "y_final": y,
+        **failed_arrays,
     }
     if states is not None:
         arrays["x"] = states["x"][: completed + 1]
         arrays["y"] = states["y"][: completed + 1]
     function_rule = restart == "function"
+    gradients = oracle.gradients - initial_gradients
+    objectives = oracle.objectives - initial_objectives
     metadata = {
         "restart": restart,
         "interval": interval,
@@ -194,14 +242,14 @@ def run_agd(
         "eta": float(eta),
         "iterations_requested": n,
         "updates": completed,
-        "gradients": oracle.gradients,
-        "objectives": oracle.objectives,
+        "gradients": gradients,
+        "objectives": objectives,
         # f(x_k) per attempted update is controller work only for the function rule.
-        "controller_objectives": oracle.objectives - 1 if function_rule else 0,
-        "diagnostic_objectives": 1 if function_rule else oracle.objectives,
+        "controller_objectives": objectives - 1 if function_rule else 0,
+        "diagnostic_objectives": 1 if function_rule else objectives,
         "controller_dots": controller_dots,
         "restarts": int(fired[:completed].sum()),
-        "charged_unfinished_gradients": oracle.gradients - completed,
+        "charged_unfinished_gradients": gradients - completed,
         "wall_seconds": wall,
         "wall_note": "includes the per-update objective evaluation for every rule",
         "status": "failure" if failure else "budget_complete",

@@ -42,6 +42,15 @@ retains the endpoint, and saves reset flags and optional states. This interval i
 a software example; benchmark intervals still need to be declared before a
 matched comparison. See [the exact convention](docs/METHODS.md#fixed-time-rhgd-control).
 
+Restarted AGD also has a bounded software check:
+
+```bash
+python scripts/stat605.py agd --smoke --config configs/stat605/agd_smoke.json --output tmp/agd-smoke
+```
+
+It checks four restart modes on both shared quadratic inputs. Full configured
+AGD runs require a Slurm allocation. See [Kwonsang's results and conventions](docs/AGD_RESTART_SUMMARY.md).
+
 Paper-replay tests are skipped if the pinned author checkout is absent. To enable
 them, follow [reproduction setup](docs/REPRODUCTION.md), then run
 `python -m pytest tests/reproduction`. Large runs belong in a Slurm allocation;
@@ -57,7 +66,7 @@ them, follow [reproduction setup](docs/REPRODUCTION.md), then run
 | `docs/evidence/` | Small, portable copies of historical result summaries |
 | `src/rhgd_reproduction/` | Pinned author-cell replay |
 | `src/power_reset_spectral_comparison/` | Existing fair-cost quadratic comparison code |
-| `src/stat605/` | Course fixed-time RHGD control, RCM variants, and small demonstrations |
+| `src/stat605/` | Course fixed-time RHGD, RCM, restarted AGD, and small demonstrations |
 | `study/B/src/`, `study/B/configs/` | Unchanged frozen power-reset reference |
 | `configs/stat605/` | Course settings, separate from historical settings |
 | `configs/stat605/fixtures/` | Exact small historical quadratic and synthetic logistic inputs, with hashes |
@@ -68,7 +77,7 @@ The `B` in old source/configuration names means **power-reset RHGD**. These path
 remain unchanged because historical provenance pins their bytes and locations.
 The three selected RCM variants now have an implementation and a qualified
 [setup replication](docs/RCM_REPLICATION.md). Their combined comparison with RHGD,
-function-restart AGD, and several other proposed reset rules remains future work.
+restarted AGD and several other proposed reset rules remains future work.
 
 ## Share with the group
 

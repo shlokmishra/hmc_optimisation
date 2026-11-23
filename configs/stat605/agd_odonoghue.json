@@ -1,8 +1,8 @@
 {
   "purpose": "source_style_replication_of_odonoghue_candes_2015_quadratic_figures",
   "source": "O'Donoghue and Candes, Adaptive Restart for Accelerated Gradient Schemes, arXiv:1204.3982v1, Figures 1 and 3",
-  "stated_by_source": "Fig. 1: n=200, q*=mu/L=4.1e-5, t=1/L. Fig. 3: n=500, optimal fixed-interval bound 700, intervals 400 and 700 discussed, no restart, optimal q, both adaptive rules.",
-  "not_stated_by_source": "Matrix generation, spectrum shape, start, iteration count, Fig. 1 list of q values, Fig. 3 condition number. Those below are our declared choices; kappa for Fig. 3 is back-calculated from e*sqrt(8*kappa)=700. Agreement can only be qualitative, not array parity.",
+  "stated_by_source": "Fig. 1: n=200, q*=mu/L=4.1e-5, t=1/L, q values in the legend, displayed through 5000 iterations. Fig. 3: n=500, displayed through 2000 iterations, upper bound 700 and intervals 400/700 discussed, no restart, optimal q, both adaptive rules.",
+  "not_stated_by_source": "Original matrices, spectrum generation, starts and random seed are unavailable. Our linear spectrum, Gaussian start, selected series and 4000-step Fig.3-style extension are project choices. Fig.3 kappa is back-calculated from e*sqrt(8*kappa)=700. Agreement is qualitative, not array parity.",
   "cases": [
     {
       "name": "oc_fig1_q_estimates",

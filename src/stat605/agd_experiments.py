@@ -20,7 +20,8 @@ def crossings(gap, target):
     Sustained means the gap stays at or below the target from that index to the
     end of the recorded trace. It says nothing about later updates.
     """
-    below = np.asarray(gap) <= target
+    gap = np.asarray(gap)
+    below = np.isfinite(gap) & (gap <= target)
     if not below.any():
         return None, None
     first = int(np.argmax(below))
@@ -48,7 +49,12 @@ def generated_quadratic(n, mu, L, spectrum, seed):
 def load_problem(spec):
     """Return A, x0, mu, L for a fixture or a generated quadratic. f* is zero for both."""
     if "fixture" in spec:
-        with np.load(FIXTURES / spec["fixture"], allow_pickle=False) as data:
+        path = FIXTURES / spec["fixture"]
+        entries = json.loads((FIXTURES / "PROVENANCE.json").read_text())["fixtures"]
+        pinned = next((entry for entry in entries if entry["file"] == spec["fixture"]), None)
+        if pinned and hashlib.sha256(path.read_bytes()).hexdigest() != pinned["sha256"]:
+            raise ValueError(f"Fixture hash mismatch: {spec['fixture']}")
+        with np.load(path, allow_pickle=False) as data:
             return data["A"], data["x0"], spec["mu"], spec["L"]
     g = spec["generate"]
     L = g["L"]
@@ -75,6 +81,8 @@ def summarize(arrays, metadata, targets):
     rows = {}
     for target in targets:
         first, sustained = crossings(gap, target)
+        if metadata["status"] != "budget_complete":
+            sustained = None
         rows[f"{target:g}"] = {
             name: None
             if index is None
@@ -94,15 +102,38 @@ def summarize(arrays, metadata, targets):
     }
 
 
-def run_config(config_path, output):
+def run_config(config_path, output, *, smoke=False):
     """Run every case in a config into a fresh output directory."""
     config_path = Path(config_path)
     config = json.loads(config_path.read_text())
+    if not config["cases"] or any(not case["methods"] for case in config["cases"]):
+        raise ValueError("A config needs cases and methods")
+    stems = [
+        f"{case['name']}__{method['label']}"
+        for case in config["cases"]
+        for method in case["methods"]
+    ]
+    if len(stems) != len(set(stems)) or any(Path(stem).name != stem for stem in stems):
+        raise ValueError("Case/method names must produce distinct simple filenames")
+    if smoke:
+        if sum(case["iterations"] * len(case["methods"]) for case in config["cases"]) > 2000:
+            raise ValueError("AGD smoke is capped at 2000 total gradients")
+        if any(case["problem"].get("generate", {}).get("n", 0) > 100 for case in config["cases"]):
+            raise ValueError("AGD smoke is capped at dimension 100")
     output = Path(output)
     output.mkdir(parents=True, exist_ok=False)
     records = []
     for case in config["cases"]:
         A, x0, mu, L = load_problem(case["problem"])
+        if smoke and len(x0) > 100:
+            raise ValueError("AGD smoke is capped at dimension 100")
+        input_hashes = {
+            "A_raw_c_order": hashlib.sha256(np.ascontiguousarray(A).tobytes()).hexdigest(),
+            "x0_raw_c_order": hashlib.sha256(np.ascontiguousarray(x0).tobytes()).hexdigest(),
+        }
+        if "fixture" in case["problem"]:
+            path = FIXTURES / case["problem"]["fixture"]
+            input_hashes["fixture_file"] = hashlib.sha256(path.read_bytes()).hexdigest()
         eta = case.get("eta_times_L", 1.0) / L
         figure, axes = plt.subplots(figsize=(8, 4.5))
         try:
@@ -128,6 +159,7 @@ def run_config(config_path, output):
                         "q_factor": factor,
                         "mu": mu,
                         "L": L,
+                        "input_sha256": input_hashes,
                         **metadata,
                         **summarize(arrays, metadata, case["targets"]),
                     }
@@ -146,6 +178,7 @@ def run_config(config_path, output):
     sources = [Path(__file__), Path(__file__).with_name("agd.py")]
     summary = {
         "purpose": config["purpose"],
+        "execution": "software_smoke_not_research_evidence" if smoke else "configured_experiment",
         "config": config,
         "config_sha256": hashlib.sha256(config_path.read_bytes()).hexdigest(),
         "source_sha256": {

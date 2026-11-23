@@ -68,6 +68,8 @@ def main():
     parser.add_argument("--fixtures", type=Path, default=root / "configs/stat605/fixtures")
     parser.add_argument("--output", type=Path, default=root / "tmp/spectrum_contours.png")
     args = parser.parse_args()
+    if args.output.exists():
+        raise FileExistsError(f"Refusing to overwrite an existing figure: {args.output}")
 
     fig, axes = plt.subplots(
         len(CASES),

@@ -26,13 +26,22 @@ conventions were checked; the numerical core and submitted artifacts are retaine
 This is a new seeded instance and three selected curves, not exact agreement with
 the original published figure. See [the replication note](RCM_REPLICATION.md).
 
+**AGD contribution reviewed, November 23:** Kwonsang's variable-theta scheme,
+function/gradient/fixed restart modes, source-style example figures, and reported
+mu-sensitivity study are integrated. The recurrence and restart definitions were
+checked against the primary paper. Failure reporting, finite-state checks, input
+provenance and allocation guards were strengthened without changing finite
+trajectories in 24 bounded parity cases. The submitted laptop figures/tables are
+carried forward; the full 100,000-update sweep was not rerun for this review.
+See [the AGD summary](AGD_RESTART_SUMMARY.md). A common matched benchmark remains open.
+
 ## What we already have
 
 | Proposal commitment | Existing evidence | Status for the course |
 | --- | --- | --- |
 | Representative RHGD quadratic replication | Figure 1 exact and misspecified strong-convexity cases; weak quadratic extension | Substantially done, with the caveats below |
 | Selected RCM replication | Three variants, correctness/budget checks, seed-605 Section 5.1 setup example and small shared-fixture pilot | Implemented for selected variants; full common comparison remains |
-| Restarted AGD | Tested gradient-restart, alpha-free accelerated recurrence in `core.ar_step` | Implemented; function-increase restart and selected source replication remain |
+| Restarted AGD | Historical `core.ar_step` plus reviewed variable-theta function/gradient/fixed restart, source-style figures and reported sensitivity | Implemented; common harness and pinned-environment final study remain |
 | Fair AGD/CAGD/RHGD comparison | Two 100D fixed quadratics, equal distinct-gradient budgets and three timing repetitions | Done for this limited historical suite |
 | Vary spectra at fixed dimension and endpoints | Linear and logarithmic spectra with d=100, mu=5e-5, L=500 | Partial: clustered spectra and controlled modal energies remain |
 | Test mu misspecification | Figure 1 exact mu versus supplied 0.01 on the same matrix | One overestimate done; controlled broader sensitivity remains |

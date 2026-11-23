@@ -54,7 +54,7 @@ The starting allocation also changed the ordering of two methods at the same bud
 
 ![Current loss against gradient evaluations for each recorded Grace trajectory, arranged by starting condition and spectrum.](grace-20654076/loss_gradients.png)
 
-**Figure 2.** Each curve follows one path’s current loss. Columns change the spectrum. The middle and bottom rows hold initial loss at one. Both RHGD methods take two gradient evaluations per update. Under the common within-update cache, CAGD evaluates its repeated request at the same point once. [Loss versus iterations](grace-20654076/loss_iterations.png)
+**Figure 2.** Each curve shows one run. The three spectra share a logarithmic loss scale within each row. The work axis is linear from 0 to 10 paid gradients, then logarithmic to 2,000. Both RHGD methods use two gradients per update. CAGD reuses its gradient at the repeated point. [Loss versus iterations](grace-20654076/loss_iterations.png)
 
 ## Why a change of start can move a reset
 

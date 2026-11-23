@@ -1,9 +1,11 @@
 import csv
 import json
 
+import matplotlib.pyplot as plt
 import numpy as np
 import pytest
 
+from stat605 import spectral_reporting
 from stat605.spectral_reporting import _drawing_indices, write_report
 
 
@@ -97,3 +99,42 @@ def test_rendering_extrema_and_endpoints_survive_reduction():
     kept = _drawing_indices(loss)
     assert {0, 6534, 18002, len(loss) - 1} <= set(kept)
     assert np.all(np.diff(kept) > 0)
+
+
+def test_work_axes_include_initial_state_and_share_loss_ranges_by_start(tmp_path, monkeypatch):
+    runs = []
+    for start, losses in [("common", [10000.0, 2.0, -1e-9]), ("equal", [1.0, 0.2, 0.1])]:
+        filename = start + ".npz"
+        np.savez(tmp_path / filename, gradients=[0, 10, 2000], loss=losses)
+        for spectrum in ("linear", "log"):
+            runs.append(
+                dict(
+                    start=start,
+                    spectrum=spectrum,
+                    method="AGD",
+                    seed=None,
+                    status="budget_complete",
+                    trace=filename,
+                )
+            )
+
+    def check_figure(fig, output):
+        try:
+            common, other_common, equal, other_equal = fig.axes
+            assert common.get_shared_y_axes().joined(common, other_common)
+            assert equal.get_shared_y_axes().joined(equal, other_equal)
+            assert not common.get_shared_y_axes().joined(common, equal)
+            assert common.get_yscale() == "symlog"
+            assert equal.get_yscale() == "log"
+            assert common.get_ylim()[0] < 0
+            for ax in fig.axes:
+                assert ax.get_xscale() == "symlog"
+                assert ax.get_xlim() == (0, 2000)
+                assert {0, 10, 100, 2000} <= set(ax.get_xticks())
+        finally:
+            plt.close(fig)
+
+    monkeypatch.setattr(spectral_reporting, "_save_figure", check_figure)
+    spectral_reporting._loss_figure(
+        tmp_path, tmp_path / "figure.png", runs, "gradients", "Grace pilot", [1e-4]
+    )

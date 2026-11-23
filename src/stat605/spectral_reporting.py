@@ -9,6 +9,7 @@ from statistics import median
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.lines import Line2D
+from matplotlib.ticker import EngFormatter, LogLocator
 
 SPECTRA = {"linear": "Linear spacing", "log": "Log spacing", "clustered": "Two clusters"}
 STARTS = {
@@ -170,23 +171,32 @@ def _drawing_indices(loss, bins=800):
 def _loss_figure(run_dir, output, runs, axis, scope, targets):
     spectra = list(dict.fromkeys(r["spectrum"] for r in runs))
     starts = list(dict.fromkeys(r["start"] for r in runs))
+    by_work = axis == "gradients"
+    size = (
+        (3.2 * len(spectra) + 0.3, 1.95 * len(starts) + 1.4)
+        if by_work
+        else (4.0 * len(spectra) + 0.3, 2.45 * len(starts) + 1.6)
+    )
     fig, axes = plt.subplots(
         len(starts),
         len(spectra),
-        figsize=(4.0 * len(spectra) + 0.3, 2.45 * len(starts) + 1.6),
+        figsize=size,
         sharex=True,
-        sharey=True,
+        sharey="row" if by_work else True,
         squeeze=False,
         layout="constrained",
     )
     legend = {}
-    nonpositive = False
+    nonpositive_rows = np.zeros(len(starts), dtype=bool)
+    max_x = 0
     for run in runs:
-        ax = axes[starts.index(run["start"]), spectra.index(run["spectrum"])]
+        row = starts.index(run["start"])
+        ax = axes[row, spectra.index(run["spectrum"])]
         method = run["method"]
         name, color, style = METHODS.get(method, (method, "C7", "-."))
         with np.load(run_dir / run["trace"], allow_pickle=False) as trace:
             x, y = trace[axis], trace["loss"]
+        max_x = max(max_x, x.max(initial=0))
         finite = np.isfinite(y)
         x, y = x[finite], y[finite]
         legend[name] = Line2D([], [], color=color, ls=style)
@@ -202,25 +212,42 @@ def _loss_figure(run_dir, output, runs, axis, scope, targets):
             alpha=0.55 if run["seed"] is not None else 0.95,
             marker="." if len(y) == 1 else None,
         )
-        nonpositive |= bool(np.any(y <= 0))
+        nonpositive_rows[row] |= np.any(y <= 0)
         if run["status"] == "failure":
             ax.plot(x[-1], y[-1], "x", color=color)
             legend["Last finite state of failed run"] = Line2D(
                 [], [], color="0.3", marker="x", ls="none"
             )
-    if nonpositive:
-        axes[0, 0].set_yscale("symlog", linthresh=max(np.finfo(float).tiny, min(targets) * 0.01))
-    else:
-        axes[0, 0].set_yscale("log")
+    scale_groups = nonpositive_rows if by_work else [nonpositive_rows.any()]
+    for ax, nonpositive in zip(axes[:, 0], scale_groups, strict=False):
+        if nonpositive:
+            ax.set_yscale("symlog", linthresh=max(np.finfo(float).tiny, min(targets) * 0.01))
+        else:
+            ax.set_yscale("log")
+            if by_work:
+                ax.yaxis.set_major_locator(LogLocator(numticks=6))
+    xlabel = "Paid gradient evaluations" if by_work else "Completed iterations"
+    if by_work and max_x >= 100:
+        # Show the initial iterate and early paid work alongside the entire budget.
+        ax = axes[0, 0]
+        ax.set_xscale("symlog", linthresh=10, linscale=0.55)
+        ax.set_xlim(0, max_x)
+        ax.xaxis.get_major_locator().set_params(numticks=6)
+        ticks = ax.get_xticks()
+        ticks = ticks[(ticks >= 0) & (ticks < max_x / 1.7)]
+        ax.set_xticks([*ticks, max_x])
+        ax.xaxis.set_major_formatter(EngFormatter(sep=""))
+        xlabel += " (linear to 10, then log)"
     for j, spectrum in enumerate(spectra):
         axes[0, j].set_title(SPECTRA.get(spectrum, spectrum))
     for i, start in enumerate(starts):
         axes[i, 0].set_ylabel(STARTS.get(start, start))
     for ax in axes.flat:
         _grid(ax)
-    xlabel = "Paid gradient evaluations" if axis == "gradients" else "Completed iterations"
     fig.suptitle(
-        f"Current objective gap by {xlabel.lower()}\n{scope} · One trajectory per run", fontsize=14
+        f"Current objective gap by {'paid gradients' if by_work else 'completed iterations'}\n"
+        f"{scope} · {'Shared loss scale within each row' if by_work else 'One trajectory per run'}",
+        fontsize=14,
     )
     _label_bottom(axes, xlabel)
     fig.supylabel("Current objective gap")

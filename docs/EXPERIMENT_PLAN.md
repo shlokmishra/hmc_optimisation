@@ -21,12 +21,18 @@ insufficient. Existing logistic inputs and preliminary results are already share
   recurrence. Specify strictness, index ordering, retained point, and state reset.
 - [ ] Document the selected restarted-AGD source benchmark and compare it at its
   source settings. Existing implementation tests alone do not replicate a paper.
-- [ ] Define fixed-time, kinetic-peak and normalized/mean-dissipation RHGD reset
-  variants. Keep RHGD's position/velocity update unchanged. State whether the
+- [x] Implement the constant-step quadratic fixed-time RHGD control with unchanged
+  numerical step, endpoint retention, exact reset clock and gradient accounting.
+  `src/stat605/rhgd.py` and `fixed-time-smoke` provide this; benchmark periods and
+  matched performance comparisons remain open.
+- [ ] Define kinetic-peak and normalized/mean-dissipation RHGD reset variants.
+  Keep RHGD's position/velocity update unchanged. State whether the
   signal is based on actual objective decrease or kinetic energy: the discrete
   map dissipates energy, so these quantities need not agree.
 - [ ] For each new controller, test zero initial velocity, no spurious first-step
   reset, equality boundaries, segment-clock reset, cap, and nonfinite failure.
+  Fixed-time control checks are implemented (m=1 intentionally resets each step);
+  other new controllers still need their own checks.
 
 Deliverable: short method specifications, implementations in `src/stat605/`, and
 small correctness tests. RCM symplectic Euler and RHGD are different integrators.

@@ -1,0 +1,7 @@
+{
+  "purpose": "software_smoke_not_research_evidence",
+  "fixtures": ["quadratic_paper.npz", "quadratic_log.npz"],
+  "eta": 0.002,
+  "period_steps": 8,
+  "gradient_budget": 200
+}

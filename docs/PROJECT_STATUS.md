@@ -13,6 +13,12 @@ synthetic regularized-logistic problem are now included in
 `configs/stat605/fixtures/`, with source paths and hashes. They are problem inputs,
 not historical trajectories. No new research benchmark was run for this handoff.
 
+**Implementation update, November 23:** the constant-step quadratic fixed-time
+RHGD control is implemented in `src/stat605/rhgd.py`, with a required integer reset
+period, unchanged frozen numerical map, and explicit evaluation/failure counts.
+The CLI provides a capped two-fixture smoke demonstration. A matched performance
+comparison and the choice of benchmark periods remain to be done.
+
 ## What we already have
 
 | Proposal commitment | Existing evidence | Status for the course |
@@ -25,7 +31,8 @@ not historical trajectories. No new research benchmark was run for this handoff.
 | Test mu misspecification | Figure 1 exact mu versus supplied 0.01 on the same matrix | One overestimate done; controlled broader sensitivity remains |
 | Stepsize sensitivity | Paper settings and historical variants exist | No unified course sensitivity experiment completed |
 | Adaptive RHGD resets with unchanged state update | Frozen power-reset RHGD, strict arming and zero-velocity reset | One useful rule implemented and evaluated |
-| Fixed-time, kinetic-energy, normalized/mean-dissipation resets | Discussed in proposal/history | Need precise discrete definitions, implementation, tests, and comparison |
+| Fixed-time RHGD reset control | Constant-step quadratic implementation, reset-boundary/parity/cost tests, capped smoke command | Implemented; matched performance comparison not run |
+| Kinetic-energy, normalized/mean-dissipation resets | Discussed in proposal/history | Need precise discrete definitions, implementation, tests, and comparison |
 | Logistic extension | Original RHGD logistic replays and earlier power-reset comparison | Reusable preliminary evidence; not a completed course-wide comparison |
 | Final group report and presentation | Proposal PDF only | Still to do |
 

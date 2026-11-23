@@ -8,6 +8,7 @@ Run from the repository root after `source scripts/activate_env.sh`.
 | `activate_env.sh` | Activate it and set one numerical thread |
 | `check_env.py` | Check numerical libraries, environment, and plotting |
 | `stat605.py smoke --output …` | Tiny self-contained five-method demonstration |
+| `stat605.py fixed-time-smoke --output …` | Periodic RHGD check on both shared quadratic inputs |
 | `package_project.py --output …` | Package clean group sources with a hash manifest |
 | `reproduce_rhgd.py plan` | Validate pinned inputs and list historical panel settings |
 | `reproduce_rhgd.py run --case … --smoke --output …` | Short author-cell replay |

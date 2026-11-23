@@ -1,6 +1,6 @@
 # Group handoff: start here
 
-Updated November 19, 2026. Shared repository:
+Updated November 23, 2026. Shared repository:
 [shlokmishra/hmc_optimisation](https://github.com/shlokmishra/hmc_optimisation).
 The repository is public, so everyone can clone it. Use a fork and pull request
 if direct write access has not yet been arranged.
@@ -15,6 +15,7 @@ cd hmc_optimisation
 bash scripts/setup_env.sh
 source scripts/activate_env.sh
 python scripts/stat605.py smoke --output tmp/my-first-smoke
+python scripts/stat605.py fixed-time-smoke --output tmp/my-fixed-time-smoke
 python -m pytest
 ```
 
@@ -24,16 +25,18 @@ output directory for each run. Grace uses the project Python modules; local
 computers use a standard virtual environment. See [environment details](docs/grace.md).
 The non-Grace installation path and other operating systems have not been tested.
 
-A source checkout without the optional author notebook is expected to pass 16
+A source checkout without the optional author notebook is expected to pass 42
 checks and skip 19 replay checks. Those skips are explained by
 [reproduction setup](docs/REPRODUCTION.md); they do not prevent course work.
-The owner's checkout with pinned upstream inputs has passed all 35 checks.
+The owner's checkout with pinned upstream inputs has passed all 61 checks.
 
 ## 2. What exists now
 
 - RHGD source-parity checks for five settings: strong/weak quadratics and logistic
   regression. The weak million-step experiment extends the notebook default.
 - Tested AGD, gradient-restart AGD, CAGD, original RHGD, and power-reset RHGD code.
+- A constant-step quadratic fixed-time RHGD control with exact reset scheduling,
+  paid-work/failure checks, and a capped demonstration on both shared quadratics.
 - Historical fair-cost comparisons on two fixed 100D linear/log spectra.
 - Preliminary regularized-logistic power-reset comparisons and logistic replays.
 - Portable result summaries, paper/proposal PDFs, setup tools, and starter inputs.
@@ -58,7 +61,7 @@ this is a proposed working split, not a record of everyone's agreement.
 | --- | --- | --- |
 | **Kwonsang** | Restarted AGD: inspect existing gradient restart, add function restart, and reproduce one selected O'Donoghue/Candes example. | Checked AGD variants, a source-replication comparison, and a short result on restart/mu sensitivity. |
 | **Leonardo** | Conservative/RCM methods: choose one Scagliotti/Colli Franzone quadratic example; specify and check its update and kinetic/mean-dissipation restart conventions. | Tested RCM implementation, one replicated example, and a comparison/explanation of its restart criteria. |
-| **Shlok** | RHGD and power reset: carry forward verified replays/results, supply RHGD adapters, and add a fixed-time reset control while keeping the RHGD update fixed. | Checked RHGD controls, a mechanism/result figure, and a clear account of the existing power-reset gain and its limits. |
+| **Shlok** | RHGD and power reset: carry forward verified replays/results, integrate the methods with the shared runner, and compare the implemented fixed-time control using declared periods. | Checked RHGD controls, a mechanism/result figure, and a clear account of the existing power-reset gain and its limits. |
 | **Leo** | Spectral geometry and shared comparison: start with the existing methods/fixtures, add clustered spectra and controlled initial modal energies, and assemble common result tables. | Reusable problem/benchmark utilities and spectral/initial-energy comparison figures. |
 
 Each person owns their method/problem checks, one main figure or table, and the
@@ -66,9 +69,11 @@ matching final-report subsection. All four contribute to interpretation and the
 final presentation. Shlok's completed work counts as the inherited starting point;
 a new successful optimizer or general theorem is not a completion requirement.
 
-Suggested separate new files: `src/stat605/agd.py`, `rcm.py`, `rhgd.py`, and
-`problems.py`/`benchmark.py`, with corresponding tests. These are proposed work
-locations, not implementations already present. Keep frozen historical code intact.
+The fixed-time control now lives in `src/stat605/rhgd.py`; the original/power-reset
+methods still use the frozen reference code. Suggested new files for the other
+streams are `src/stat605/agd.py`, `rcm.py`, and `problems.py`/`benchmark.py`, with
+corresponding tests. Those are proposed locations, not existing implementations.
+Keep frozen historical code intact.
 For three streams, combine Shlok and Leo into a joint Hamiltonian/spectral stream.
 
 ## 4. Shared problems and independence

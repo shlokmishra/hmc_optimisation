@@ -24,6 +24,7 @@ cd hmc_optimisation
 bash scripts/setup_env.sh
 source scripts/activate_env.sh
 python scripts/stat605.py smoke --output tmp/stat605-smoke
+python scripts/stat605.py fixed-time-smoke --output tmp/fixed-time-smoke
 python -m pytest
 ruff check .
 ruff format --check .
@@ -34,6 +35,12 @@ The smoke example runs five existing methods on a tiny synthetic quadratic and
 saves a figure, traces, and metadata. It needs no historical results, upstream
 checkout, GPU, or Slurm allocation. It is a software demonstration, not a course
 experiment or performance result. Output directories must be new.
+
+The fixed-time smoke checks the new periodic RHGD control on the two shared
+quadratic inputs (200 gradients each). It resets after every 8 completed updates,
+retains the endpoint, and saves reset flags and optional states. This interval is
+a software example; benchmark intervals still need to be declared before a
+matched comparison. See [the exact convention](docs/METHODS.md#fixed-time-rhgd-control).
 
 Paper-replay tests are skipped if the pinned author checkout is absent. To enable
 them, follow [reproduction setup](docs/REPRODUCTION.md), then run
@@ -50,7 +57,7 @@ them, follow [reproduction setup](docs/REPRODUCTION.md), then run
 | `docs/evidence/` | Small, portable copies of historical result summaries |
 | `src/rhgd_reproduction/` | Pinned author-cell replay |
 | `src/power_reset_spectral_comparison/` | Existing fair-cost quadratic comparison code |
-| `src/stat605/` | Course entry points and small demonstrations |
+| `src/stat605/` | Course fixed-time RHGD control and small demonstrations |
 | `study/B/src/`, `study/B/configs/` | Unchanged frozen power-reset reference |
 | `configs/stat605/` | Course settings, separate from historical settings |
 | `configs/stat605/fixtures/` | Exact small historical quadratic and synthetic logistic inputs, with hashes |

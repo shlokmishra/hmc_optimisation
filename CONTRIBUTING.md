@@ -46,10 +46,11 @@ See the [status audit](docs/PROJECT_STATUS.md) and [saved evidence](docs/evidenc
 
 These are inherited results from Shlok's earlier work. Leo's course contribution
 adds matched clustered inputs, fixed-energy starts, and a configurable comparison
-of the five existing methods. The report includes a 100D input-geometry figure
-and results from an eight-dimensional software check. The Grace pilot is ready
-for a later allocation. RCM, function-restart AGD, new RHGD controllers, and a
-unified logistic comparison remain open. [Leo's section and run commands](docs/spectral/REPORT.md)
+of the five existing methods. The report includes the 100D Grace pilot
+(job `20654076`), first and sustained target costs, final losses, and one
+observed reset explained by its modal power contributions. RCM, function-restart
+AGD, new RHGD controllers, and a unified logistic comparison remain open.
+[Leo's section and reproduction commands](docs/spectral/REPORT.md)
 
 ## 3. Proposed four workstreams
 
@@ -96,7 +97,8 @@ The historical five-method runner is `src/power_reset_spectral_comparison/core.p
 `study/B/src/power_reset.py`. The old evidence/experiment tools still expect large
 private raw results. The course harness uses the small fixtures and saved method
 conventions. Run `python scripts/stat605.py spectral --output tmp/my-spectral-check`
-for the local example, or use the [pilot protocol](docs/spectral/REPORT.md) on Grace.
+for the local example. The [report](docs/spectral/REPORT.md) identifies the
+Grace settings and explains how to rebuild the comparison from saved traces.
 
 At the first group sync, agree common problem inputs, start, method parameters,
 gradient budget, and seed, plus output fields: current loss, iteration, actual and

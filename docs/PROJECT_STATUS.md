@@ -13,10 +13,12 @@ synthetic regularized-logistic problem are now included in
 `configs/stat605/fixtures/`, with source paths and hashes. They are problem inputs,
 not historical trajectories. No new research benchmark was run for this handoff.
 
-**November 22 spectral work.** Leo completed the configurable five-method
-quadratic harness, matched linear/log/clustered problems, controlled-energy
-starts, and a 117-path local correctness example. The 100D geometry figure uses
-the retained inputs. The Grace optimizer pilot is prepared for later.
+**November 22 spectral work.** Leo completed the five-method, 100-dimensional
+Grace pilot (job `20654076`). All 117 paths completed 2,000 paid gradients.
+Holding initial loss at one, 36/39 rescaled-common paths sustained a gap of
+$10^{-4}$ and 0/39 equal-energy paths reached it. Within the equal-energy
+paths, every matched method and seed had its smallest final gap on linear and
+its largest on clustered. Longer-horizon rankings remain open.
 [Report, comparison table and figures](spectral/REPORT.md)
 
 ## Findings from the November 12 audit

@@ -14,9 +14,9 @@ The [completed-work audit](docs/PROJECT_STATUS.md),
 [remaining experiments](docs/EXPERIMENT_PLAN.md), and
 [method conventions](docs/METHODS.md) give the scientific detail.
 
-Leo's [spectral comparison](docs/spectral/REPORT.md) includes the
-100-dimensional starting-energy figure, a checked five-method example, and
-instructions for running the matched comparison on Grace.
+Leo's [spectral comparison](docs/spectral/REPORT.md) reports the completed
+100-dimensional Grace pilot across three spectra, three starts and five
+methods, including the effect of the starting energy on target costs and resets.
 
 ## Run a small example
 

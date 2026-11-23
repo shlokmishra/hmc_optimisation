@@ -7,10 +7,11 @@ Leo (spectral geometry and comparison infrastructure). Confirm the split and
 compute ceilings as a group. Each stream owns checks, results, and report text.
 No jobs were submitted during cleanup or the collaborator handoff.
 
-**November 22 update.** The shared interface runs the five existing methods.
-Leo completed the matched problem construction, fixed-energy comparisons and
-local software check. The pilot configuration and Slurm template are ready
-for later use. The full comparison and other method owners' adapters remain open.
+**November 22 update.** Grace job `20654076` completed the matched 100D pilot
+for the five existing methods. Leo's report uses the saved paths for the
+fixed-energy comparisons, target tables and reset diagnostics. A longer
+comparison would still need a frozen configuration and the other owners'
+checked adapters where applicable.
 [Results and reproduction commands](spectral/REPORT.md)
 
 Quadratics are the core controlled study. Plan one common regularized-logistic
@@ -65,16 +66,16 @@ tiny test problem. The current `smoke` command is only an onboarding demonstrati
 
 - [x] Start with linear, log-spaced, and one predeclared clustered spectrum, all
   with d=100, mu=5e-5, L=500. Reuse one orthogonal basis for matched comparisons.
-- [ ] Compare the retained common-start convention with equal initial modal
+- [x] Compare the retained common-start convention with equal initial modal
   energies. Optionally add a declared slow-heavy start. Equal x coordinates do
   not give equal modal energy: E_i=0.5*lambda_i*z_i(0)^2.
-- [ ] First run a short pilot in an allocation to measure cost and detect failures.
-  Freeze target(s), budgets, method parameters, starts and seed list before the
+- [x] Run a short pilot in an allocation to measure cost and detect failures.
+- [ ] Freeze target(s), budgets, method parameters, starts and seed list before the
   main comparison. Record changes made after this pilot.
-- [ ] Use five explicit algorithm seeds initially for randomized methods, and
+- [x] Use five explicit algorithm seeds initially for randomized methods, and
   repeat starts/problem generation only if the group can afford it. Keep these
   sources of variability separate. Timing repetitions are not statistical seeds.
-- [ ] Report current-loss first and sustained targets, reset locations, and modal
+- [x] Report current-loss first and sustained targets, reset locations, and modal
   power contributions on a small diagnostic subset. Use above-floor targets and
   mark misses as censored, not omitted.
 

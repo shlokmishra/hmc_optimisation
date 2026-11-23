@@ -1,138 +1,82 @@
-# How spectral geometry and starting energy affect a restart comparison
+# How spectral geometry and starting energy affect momentum resets
 
 Leo Oh · STAT 605 · November 22, 2026
 
-## Matched quadratics
+On a strongly convex quadratic, how much does a restart method’s performance depend on the curvature of the problem, and how much on where the initial error lies? We compared five methods on three 100-dimensional quadratics with the same condition number. At an initial objective of one, 36 of 39 paths sustained a gap of $10^{-4}$ when we kept the original proportions of energy in each direction. After we gave every direction equal energy, none of the 39 matched paths reached that target within 2,000 gradient evaluations. Even with energy held equal, every method and seed finished with its smallest gap on the linear spectrum and its largest on the clustered spectrum.
 
-At fixed dimension and condition number, the interior eigenvalues and the energy
-initially assigned to each eigendirection can both change.
-For $A=Q\,\mathrm{diag}(\lambda_i)\,Q^\top$, write $z=Q^\top x$. The potential
-energy of mode $i$ is $E_i=\lambda_i z_i^2/2$, and the quadratic objective is
-their sum. Reusing the same starting vector across spectra keeps $z$ fixed but
-changes both the total loss and the weight of each mode.
+## Matched problems and starting conditions
 
-We compared three matrices with 100 modes, minimum eigenvalue $5\times10^{-5}$
-and maximum eigenvalue 500. The linear and logarithmic matrices and common
-starting vector come from the shared fixtures. The clustered matrix uses the
-same basis. Its 50 slow modes are equally spaced in log curvature over the
-lowest tenth of the log interval. Its 50 fast modes occupy the highest tenth
-by the same rule. The condition number is $10^7$ in all three cases.
+For $f(x)=\tfrac12 x^\top A x$, the minimum is $f(0)=0$. Write $A=Q\,\mathrm{diag}(\lambda_i)\,Q^\top$ and $z=Q^\top x$. Mode $i$ contributes $E_i=\lambda_i z_i^2/2$ to the objective. Reusing a starting vector across spectra keeps its coordinates $z_i$ fixed when the basis is shared. Changing the eigenvalues still changes the total loss and each mode’s share of it.
 
-| Spectrum | Common-start objective | Slowest 50 modes’ share of common-start energy | Slowest 50 modes’ share with equal modal energy |
-| --- | ---: | ---: | ---: |
-| Linear | 11,362.68 | 24.85% | 50% |
-| Log-spaced | 1,594.04 | 0.04163% | 50% |
-| Two clusters | 6,101.85 | 0.00004634% | 50% |
+All three matrices share the same basis, dimension, and extreme eigenvalues, $\mu=5\times10^{-5}$ and $L=500$, giving a condition number of $10^7$. We used the retained linear and log-spaced matrices. For the clustered matrix we placed 50 eigenvalues across each outer tenth of the log-curvature interval, equally spaced in log curvature within each band.
 
-The clustered common start puts almost all its energy in the fast half of
-the spectrum. To isolate this effect, we paired two starts at total objective
-one. The first rescales the common vector and preserves its energy fractions.
-The second retains its modal signs and sets $|z_i|=\sqrt{2/(100\lambda_i)}$,
-giving every mode energy 0.01. Thus changing between these two starts alters
-the allocation while holding the matrix and total initial loss fixed. The
-original common start remains available for comparison with earlier work.
+| Spectrum | Original starting loss | Share of loss in the 50 slowest modes |
+| --- | ---: | ---: |
+| Linear | 11,362.68 | 24.85% |
+| Log-spaced | 1,594.04 | 0.04163% |
+| Two clusters | 6,101.85 | 0.00004634% |
 
-![Initial potential energy per mode versus eigenvalue for the three 100-dimensional quadratics and three starts.](initial-energy.png)
+The **common** start retains the original vector for historical comparison. The **rescaled common** start multiplies that vector by a scalar to set $f(x_0)=1$, preserving the shares in the table. The **equal-energy** start keeps the same modal signs and sets $|z_i|=\sqrt{2/(100\lambda_i)}$, giving each mode 0.01 and the slowest half 50% of the loss. Comparing these last two starts within a matrix holds total initial loss fixed. Comparing equal-energy starts across matrices holds all 100 initial modal energies fixed.
 
-**Figure 1.** Each point is one mode at initialization. The horizontal marks
-show equal energy. The two other starting conditions share a direction, so
-rescaling shifts their energies vertically without changing the pattern.
+![Starting potential energy per mode versus eigenvalue for three spectra and three starts.](grace-20654076/modal_energy.png)
 
-## What the optimizer comparisons show
+**Figure 1.** Each mark represents one eigendirection. Rescaling shifts the common-start energies vertically. Equal allocation makes the starting energy independent of curvature.
 
-The inherited 100-dimensional common-start study found that power-reset RHGD
-reached a sustained gap of $10^{-8}$ in 10,000 gradients on the linear spectrum
-and 43,016 on the log spectrum. Gradient-restart AGD used 11,832 and 25,188.
-The ranking reversed, and power reset missed the earlier study’s 20% work-and-time
-improvement criterion. Figure 1 identifies a second difference between those
-two runs. Both the spectrum and the initial modal energies changed. The old
-runs alone cannot attribute the reversal to either factor. [Historical results](../PROJECT_STATUS.md)
+## Work to reach and sustain the targets
 
-We checked the comparison pipeline on one generated eight-dimensional basis,
-with $\mu=0.05$, $L=5$ and 120 paid gradients per path. The table gives paid
-gradients to reach $f(x)\leq 10^{-5}$ and stay there through the budget.
-Both starts in each pair have $f(x_0)=1$. CAGD and RHGD use five algorithm
-seeds on the same problem. Their entries give the median across all five.
-A censored median means fewer than three paths sustained the target. The
-fraction in parentheses gives the number that did.
+Grace job `20654076` ran AGD with known $\mu$, gradient-restart AGD, continuized AGD (CAGD), original randomized Hamiltonian gradient descent (RHGD), and power-reset RHGD. Within each of nine spectrum/start combinations we ran each deterministic method once and each randomized method with five fixed algorithm seeds, paired across problems. All 117 paths completed 2,000 paid gradient evaluations, with zero rejected updates or numerical failures. We used $\eta=1/L=0.002$ and $h=\sqrt{\eta}$ for the two RHGD methods. Both used the same position and velocity update. Their reset rules differed. [Configuration](../../configs/stat605/spectral_pilot.json) · [Method conventions](../METHODS.md)
 
-| Spectrum | Energy allocation | AGD | Gradient-restart AGD | CAGD | Original RHGD | Power-reset RHGD |
-| --- | --- | ---: | ---: | ---: | ---: | ---: |
-| Linear | Rescaled common | 42 | 34 | 40 | Censored (2/5) | 42 |
-| Linear | Equal | 64 | 37 | 51 | Censored (2/5) | 64 |
-| Log-spaced | Rescaled common | 47 | 36 | 45 | Censored (1/5) | 74 |
-| Log-spaced | Equal | 64 | 63 | 53 | Censored (0/5) | 110 |
-| Two clusters | Rescaled common | 43 | 54 | 44 | Censored (2/5) | 58 |
-| Two clusters | Equal | 65 | 65 | 64 | Censored (1/5) | 82 |
+A **first** hit is the first recorded current loss at or below the target. A **sustained** hit is the first such point after which the current loss stays below or equal to the target through the final update. An unreached target is censored at the budget. The table gives paid gradients to sustain $10^{-4}$ for the **rescaled common** start. CAGD and original RHGD entries are medians over all five seeds, with misses ranked after hits. All five seeds hit the target wherever a randomized method has a numerical entry.
 
-On the small log-spaced problem, changing only the energy allocation increased
-work from 36 to 63 gradients for gradient-restart AGD and from 74 to 110
-for power-reset RHGD. First and sustained crossings also gave different answers.
-On the rescaled linear problem, all five original RHGD paths reached the target
-at least once, with a median first crossing of 68 gradients. Only two remained
-below it through the final update. These measurements describe the software
-check on a single generated basis. The 100-dimensional optimizer pilot is pending.
-[Complete check table](check-work-to-target.csv)
+| Spectrum | AGD | Gradient-restart AGD | CAGD | Original RHGD | Power-reset RHGD |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Linear | 94 | 18 | 165 | 190 | 34 |
+| Log-spaced | 1,477 | 163 | 1,885 | Censored (2/5 hit) | 302 |
+| Two clusters | 21 | 7 | 23 | 44 | 12 |
 
-![Current objective gap against paid gradients for all methods, starts, spectra and seeds in the local software check.](check-loss-gradients.png)
+Gradient-restart AGD reached this target in the fewest gradients on all three rescaled-common cases. Among the two RHGD rules, power reset reduced the sustained work from a median of 190 to 34 on linear and from 44 to 12 on clustered. On log, power reset used 302 gradients and only two original RHGD paths sustained the target. Switching to equal energy removed every first and sustained hit across all three spectra, even though the same methods started at the same total loss of one.
 
-**Figure 2.** Each curve shows the current objective of one path. RHGD spends
-two gradients per update. CAGD requests the same gradient twice and evaluates
-it once under the shared within-update cache. The iteration plot shows how a
-different horizontal axis changes the comparison. [Loss versus iterations](check-loss-iterations.png)
+With the **original common** start, all 13 linear paths sustained $10^{-4}$ and none of the 26 log or clustered paths reached it. Those three starts have different absolute losses (Figure 1). Across the whole pilot, 49/117 paths sustained $10^{-4}$ and 13/117 sustained $10^{-8}$. All 13 tighter-target hits came from the rescaled linear problem. For original RHGD on that problem, the median first hit at $10^{-8}$ took 910 gradients and the median sustained hit took 1,824. [All work-to-target results](grace-20654076/work_to_target.csv) · [Per-path crossings](grace-20654076/targets.csv)
 
-For the mechanism diagnostic, we record each mode’s contribution to
-$\nabla f(x_{k+1})^\top v_{\mathrm{pre}}$ before power-reset RHGD clears the
-velocity. Summing the products of the projected gradient and velocity gives
-the controller’s scalar power. Positive and negative contributions from slow
-and fast modes can cancel, so the largest initial energy need not determine
-the next reset. The diagnostic figure overlays the two sums, the total, and
-actual reset locations. [Modal power and resets in the software check](check-modal-power.png)
+## What remained after 2,000 gradients
 
-## Reproduce the figures and prepare the Grace pilot
+With every equal-energy path censored, the **current objective after 2,000 paid gradients** shows how far the methods got. The entries below are final gaps, with medians for CAGD and original RHGD. Every path started at one, so the entries also give the fraction of initial loss remaining. They are descriptive endpoints of this pilot; time to either accuracy target on these starts remains unknown.
 
-From the project root in Bash, choose fresh output directories.
+| Equal-energy start | AGD | Gradient-restart AGD | CAGD | Original RHGD | Power-reset RHGD |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Linear | 0.007521 | 0.009071 | 0.007555 | 0.009032 | 0.009165 |
+| Log-spaced | 0.1061 | 0.1115 | 0.1120 | 0.2653 | 0.1742 |
+| Two clusters | 0.2456 | 0.3898 | 0.2483 | 0.3870 | 0.3892 |
+
+All 13 matched method/seed combinations had their lowest final loss on linear and their highest on clustered. Power-reset RHGD illustrates the size of the difference. It retained about 0.92%, 17.4%, and 38.9% of the initial loss, respectively. Projecting its saved final positions onto the common basis shows where that loss remained. On linear, the single slowest mode accounted for virtually all of it. On clustered, the slowest 50 modes together accounted for virtually all of it, and the single slowest accounted for only 2.33%. The clustered design assigned half the initial energy to a band whose largest eigenvalue was only $2.51\times10^{-4}$.
+
+The starting allocation also changed the ordering of two methods at the same budget. On the log matrix with the rescaled common start, gradient-restart AGD finished at $6.05\times10^{-7}$ and known-$\mu$ AGD at $6.71\times10^{-5}$. Equalizing energy reversed that ordering, with gaps of 0.1115 and 0.1061, respectively. Within the RHGD pair at equal energy, power reset finished below the original five-seed median on log and slightly above it on linear and clustered.
+
+![Current loss against gradient evaluations for each recorded Grace trajectory, arranged by starting condition and spectrum.](grace-20654076/loss_gradients.png)
+
+**Figure 2.** Each curve follows one path’s current loss. Columns change the spectrum. The middle and bottom rows hold initial loss at one. Both RHGD methods take two gradient evaluations per update. Under the common within-update cache, CAGD evaluates its repeated request at the same point once. [Loss versus iterations](grace-20654076/loss_iterations.png)
+
+## Why a change of start can move a reset
+
+Power-reset RHGD measures $P=\nabla f(x_{k+1})^\top v_{\mathrm{pre}}$ before discarding velocity. After observing negative power in a segment, it resets on the first nonnegative value, keeping the new position. Its cap of 65,536 updates exceeds the pilot horizon. Each mode contributes a signed term to $P$, so downhill motion in some directions can offset uphill motion in others.
+
+On the **same linear matrix**, at update 3 (six paid gradients), the rescaled-common start had slow-half power $-0.0464$ and fast-half power $+0.1529$. Their sum, $+0.1065$, triggered the first reset. At that update the equal-energy start also had positive fast-half power ($+0.2136$), but the slow half contributed $-0.7411$. The sum stayed negative ($-0.5275$), and the first reset came at update 4 (eight gradients). On the log spectrum, the first reset shifted from update 4 to update 493. The complete reset flags establish both times; per-mode power is available only for the first 100 updates. [Modal power and reset locations](grace-20654076/modal_power.png)
+
+## Interpretation and scope
+
+Initial energy allocation changed work materially within a fixed quadratic. Even after equalizing that allocation, the spacing of the interior eigenvalues changed the loss remaining at a common budget. The reset example shows one way the starting allocation enters the algorithm, through a sum of signed contributions that determines whether velocity is retained. These results apply to one matched basis, three spectra, the stated stepsizes, and a finite observation window. The five seeds measure algorithm randomness on each fixed problem. They do not sample five independent problems.
+
+The earlier, longer common-start study provides a separate comparison. At a sustained gap of $10^{-8}$, power-reset RHGD used 10,000 gradients on linear versus 11,832 for gradient-restart AGD. On log it used 43,016 versus 25,188. Power reset missed that study’s 20% work-and-time improvement criterion. The present pilot measured how much the starting allocations differ and compared them at equal total loss. Its 2,000-gradient horizon leaves eventual rankings on the censored cases unresolved. [Historical evidence](../PROJECT_STATUS.md)
+
+## Reproducing the results
+
+The pilot used source commit `4f74df8`, Python 3.13.5, float64 and one OpenBLAS thread on Grace. It spent 234,000 paid gradient evaluations for 324,000 literal requests, and recorded 180,117 objective evaluations. The downloaded source and fixture digests match the recorded run. All first and sustained crossings were checked against the saved loss traces. The fixed-budget table uses the last entry of each trace’s `loss` array, grouped by spectrum, start and method. The earlier [eight-dimensional software check](check-work-to-target.csv) is retained separately.
+
+The downloaded run directory is `tmp/stat605-leo/spectral-pilot-20654076` in Leo’s checkout. The original Slurm template writes to `results/stat605/spectral-pilot-20654076` on Grace by default. From the project root in Bash, rebuild the figures and target tables from the downloaded traces into a fresh output directory.
 
 ```bash
 source scripts/activate_env.sh
-python scripts/stat605.py spectral-design --output tmp/spectral-design
-python scripts/stat605.py spectral --output tmp/spectral-check
-python scripts/stat605.py spectral-report --run tmp/spectral-check --output tmp/spectral-rebuilt
+python scripts/stat605.py spectral-report \
+  --run tmp/stat605-leo/spectral-pilot-20654076 \
+  --output tmp/rebuilt-grace-20654076
 ```
-
-`spectral-design` measures the 100-dimensional inputs without taking optimizer
-steps. `spectral` defaults to the eight-dimensional check. `spectral-report`
-rebuilds figures and both CSVs from saved results. The per-run table
-(`targets.csv`) distinguishes first hits, sustained hits, budget censoring and
-failures. The grouped table (`work_to_target.csv`) retains every seed in its
-denominator. A failed path can contribute a first hit but cannot certify a
-sustained hit through budget.
-
-The proposed Grace pilot covers 3 spectra × 3 starts × 13 method/seed paths.
-It budgets 2,000 paid gradients per path, at most 234,000 total, and tracks
-absolute gaps $10^{-4}$ and $10^{-8}$. Its step is $\eta=1/L=0.002$ for
-the gradient methods and $h=\sqrt{\eta}$ for RHGD. Methods using $\mu$ receive
-the true value. The power-reset cap is 65,536 updates. Five fixed seeds per
-randomized method are paired across cases. Power-reset RHGD records per-mode
-power for the first 100 updates of each case. Use the pilot to assess cost
-and censoring before freezing a full-study budget and targets.
-[Pilot configuration](../../configs/stat605/spectral_pilot.json)
-
-The job template requests one CPU, 2 GB, and 20 minutes on Grace. Check
-`myproject` and `sinfo` on Grace for a valid account and partition. Once the
-group has chosen a raw-output location, set `SPECTRAL_OUTPUT` to a fresh path
-there if desired. From the repository root, after filling in the verified
-account and partition, the submission command is
-
-```bash
-sbatch --account="$GRACE_ACCOUNT" --partition="$GRACE_PARTITION" scripts/stat605_spectral_pilot.slurm
-```
-
-The default output directory is `results/stat605/spectral-pilot-<job-id>`.
-Each run records its config, seeds, input and source hashes, runtime, Slurm
-metadata, raw traces and target summaries. Optimizer time includes controller
-work and random draws. Endpoint loss, health checks and modal projections
-are timed separately. Counts include all objective evaluations, literal gradient
-requests and actually evaluated gradients, including work spent on failed updates.
-Include the method owners’ additional adapters once their checks are complete.
-[Environment and allocation guide](../grace.md)

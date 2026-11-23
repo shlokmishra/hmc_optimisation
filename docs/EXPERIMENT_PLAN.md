@@ -13,10 +13,12 @@ insufficient. Existing logistic inputs and preliminary results are already share
 
 ## 1. Close the method and replication gaps
 
-- [ ] Choose one representative RCM quadratic example from Scagliotti and Colli
+- [x] Choose one representative RCM quadratic example from Scagliotti and Colli
   Franzone. Record the exact source/version, stepsize, initialization, restart
   inequality, and retained endpoint. Implement the paper's method separately
   from RHGD; verify a hand-computed step and the selected source example.
+  Leonardo's three variants and seed-605 setup replication are reviewed in
+  `docs/RCM_REPLICATION.md`; this is not exact published-array parity or RCM-grad.
 - [ ] Add function-increase restarted AGD alongside the existing gradient-restart
   recurrence. Specify strictness, index ordering, retained point, and state reset.
 - [ ] Document the selected restarted-AGD source benchmark and compare it at its

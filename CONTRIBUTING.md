@@ -25,10 +25,10 @@ output directory for each run. Grace uses the project Python modules; local
 computers use a standard virtual environment. See [environment details](docs/grace.md).
 The non-Grace installation path and other operating systems have not been tested.
 
-A source checkout without the optional author notebook is expected to pass 42
+A source checkout without the optional author notebook is expected to pass 58
 checks and skip 19 replay checks. Those skips are explained by
 [reproduction setup](docs/REPRODUCTION.md); they do not prevent course work.
-The owner's checkout with pinned upstream inputs has passed all 61 checks.
+The owner's checkout with pinned upstream inputs has passed all 77 checks.
 
 ## 2. What exists now
 
@@ -37,6 +37,8 @@ The owner's checkout with pinned upstream inputs has passed all 61 checks.
 - Tested AGD, gradient-restart AGD, CAGD, original RHGD, and power-reset RHGD code.
 - A constant-step quadratic fixed-time RHGD control with exact reset scheduling,
   paid-work/failure checks, and a capped demonstration on both shared quadratics.
+- Leonardo's three selected RCM variants (`kin`, `mmd-r`, `mmd-dr`), a seeded
+  Section 5.1 setup replication, a figure and a small shared-fixture pilot.
 - Historical fair-cost comparisons on two fixed 100D linear/log spectra.
 - Preliminary regularized-logistic power-reset comparisons and logistic replays.
 - Portable result summaries, paper/proposal PDFs, setup tools, and starter inputs.
@@ -49,8 +51,10 @@ The old 20% work-and-time gate against restarted AGD failed. Preserve that resul
 See the [status audit](docs/PROJECT_STATUS.md) and [saved evidence](docs/evidence/README.md).
 
 These are inherited results from Shlok's earlier work, not new group experiments.
-RCM, function-restart AGD, a general course comparison harness, clustered spectra,
-and a unified logistic comparison remain to be completed.
+Function-restart AGD, a general course comparison harness, clustered spectra,
+and a unified logistic comparison remain to be completed. The RCM contribution
+is described in [its replication note](docs/RCM_REPLICATION.md); it covers three
+selected variants and a new seeded instance, not the complete published figure.
 
 ## 3. Proposed four workstreams
 
@@ -60,7 +64,7 @@ this is a proposed working split, not a record of everyone's agreement.
 | Owner | Scope and first task | Deliverable |
 | --- | --- | --- |
 | **Kwonsang** | Restarted AGD: inspect existing gradient restart, add function restart, and reproduce one selected O'Donoghue/Candes example. | Checked AGD variants, a source-replication comparison, and a short result on restart/mu sensitivity. |
-| **Leonardo** | Conservative/RCM methods: choose one Scagliotti/Colli Franzone quadratic example; specify and check its update and kinetic/mean-dissipation restart conventions. | Tested RCM implementation, one replicated example, and a comparison/explanation of its restart criteria. |
+| **Leonardo** | Conservative/RCM methods: three variants and the seeded example are implemented; integrate them into the common comparison and explain the restart criteria/results. | Tested RCM implementation, a qualified setup replication, and a comparison/explanation of its restart criteria. |
 | **Shlok** | RHGD and power reset: carry forward verified replays/results, integrate the methods with the shared runner, and compare the implemented fixed-time control using declared periods. | Checked RHGD controls, a mechanism/result figure, and a clear account of the existing power-reset gain and its limits. |
 | **Leo** | Spectral geometry and shared comparison: start with the existing methods/fixtures, add clustered spectra and controlled initial modal energies, and assemble common result tables. | Reusable problem/benchmark utilities and spectral/initial-energy comparison figures. |
 
@@ -69,9 +73,10 @@ matching final-report subsection. All four contribute to interpretation and the
 final presentation. Shlok's completed work counts as the inherited starting point;
 a new successful optimizer or general theorem is not a completion requirement.
 
-The fixed-time control now lives in `src/stat605/rhgd.py`; the original/power-reset
-methods still use the frozen reference code. Suggested new files for the other
-streams are `src/stat605/agd.py`, `rcm.py`, and `problems.py`/`benchmark.py`, with
+The fixed-time control now lives in `src/stat605/rhgd.py`, and the RCM generator
+in `src/stat605/rcm.py`; the original/power-reset methods still use the frozen
+reference code. Suggested new files for the other streams are
+`src/stat605/agd.py` and `problems.py`/`benchmark.py`, with
 corresponding tests. Those are proposed locations, not existing implementations.
 Keep frozen historical code intact.
 For three streams, combine Shlok and Leo into a joint Hamiltonian/spectral stream.

@@ -57,7 +57,7 @@ them, follow [reproduction setup](docs/REPRODUCTION.md), then run
 | `docs/evidence/` | Small, portable copies of historical result summaries |
 | `src/rhgd_reproduction/` | Pinned author-cell replay |
 | `src/power_reset_spectral_comparison/` | Existing fair-cost quadratic comparison code |
-| `src/stat605/` | Course fixed-time RHGD control and small demonstrations |
+| `src/stat605/` | Course fixed-time RHGD control, RCM variants, and small demonstrations |
 | `study/B/src/`, `study/B/configs/` | Unchanged frozen power-reset reference |
 | `configs/stat605/` | Course settings, separate from historical settings |
 | `configs/stat605/fixtures/` | Exact small historical quadratic and synthetic logistic inputs, with hashes |
@@ -66,7 +66,9 @@ them, follow [reproduction setup](docs/REPRODUCTION.md), then run
 
 The `B` in old source/configuration names means **power-reset RHGD**. These paths
 remain unchanged because historical provenance pins their bytes and locations.
-RCM and several proposed reset rules still need implementation and validation.
+The three selected RCM variants now have an implementation and a qualified
+[setup replication](docs/RCM_REPLICATION.md). Their combined comparison with RHGD,
+function-restart AGD, and several other proposed reset rules remains future work.
 
 ## Share with the group
 

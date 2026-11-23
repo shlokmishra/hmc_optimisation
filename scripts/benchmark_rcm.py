@@ -4,6 +4,7 @@ import argparse
 import csv
 import hashlib
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -78,9 +79,17 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--gradient-budget", type=int, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--smoke", action="store_true", help="Software check, <=300 gradients/case")
     args = parser.parse_args()
     if args.gradient_budget < 1:
         parser.error("gradient budget must be positive")
+    if args.smoke:
+        if args.gradient_budget > 300:
+            parser.error("--smoke is capped at 300 gradients per case")
+    elif not os.environ.get("SLURM_JOB_ID"):
+        parser.error(
+            "Benchmarks require a Slurm allocation; use --smoke for a small software check"
+        )
     args.output.mkdir(parents=True, exist_ok=False)
     fixtures = ROOT / "configs/stat605/fixtures"
     provenance = json.loads((fixtures / "PROVENANCE.json").read_text())
@@ -112,6 +121,8 @@ def main():
             for rule in ("kin", "mmd-r", "mmd-dr"):
                 row = run_case(matrix, start, h, rule, args.gradient_budget, trace, problem)
                 row.update(
+                    run_kind="software_smoke_not_research_evidence" if args.smoke else "benchmark",
+                    slurm_job_id=os.environ.get("SLURM_JOB_ID"),
                     fixture=name,
                     fixture_sha256=digest,
                     rcm_sha256=hashlib.sha256(

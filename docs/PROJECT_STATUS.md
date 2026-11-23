@@ -19,12 +19,19 @@ period, unchanged frozen numerical map, and explicit evaluation/failure counts.
 The CLI provides a capped two-fixture smoke demonstration. A matched performance
 comparison and the choice of benchmark periods remain to be done.
 
+**RCM contribution reviewed, November 23:** Leonardo's `kin`, `mmd-r`, and
+`mmd-dr` implementations, seeded Section 5.1 setup example, figure, and six-case
+300-gradient pilot are integrated. The printed paper algorithms and restart
+conventions were checked; the numerical core and submitted artifacts are retained.
+This is a new seeded instance and three selected curves, not exact agreement with
+the original published figure. See [the replication note](RCM_REPLICATION.md).
+
 ## What we already have
 
 | Proposal commitment | Existing evidence | Status for the course |
 | --- | --- | --- |
 | Representative RHGD quadratic replication | Figure 1 exact and misspecified strong-convexity cases; weak quadratic extension | Substantially done, with the caveats below |
-| Selected RCM replication | Proposal reviews the paper, but no RCM experiment implementation was found in the project source inventory | Still to do |
+| Selected RCM replication | Three variants, correctness/budget checks, seed-605 Section 5.1 setup example and small shared-fixture pilot | Implemented for selected variants; full common comparison remains |
 | Restarted AGD | Tested gradient-restart, alpha-free accelerated recurrence in `core.ar_step` | Implemented; function-increase restart and selected source replication remain |
 | Fair AGD/CAGD/RHGD comparison | Two 100D fixed quadratics, equal distinct-gradient budgets and three timing repetitions | Done for this limited historical suite |
 | Vary spectra at fixed dimension and endpoints | Linear and logarithmic spectra with d=100, mu=5e-5, L=500 | Partial: clustered spectra and controlled modal energies remain |
@@ -85,7 +92,6 @@ handoffs, and restricted two-mode proof are archived locally. Those branches
 contain useful negative evidence, but implementing them is not required by the
 proposal. Do not treat the old theory as a general guarantee for a new rule.
 
-The smallest next task is **source-check and reproduce one RCM quadratic example**,
-with a hand-computed symplectic-Euler step and an explicit restart convention.
-This closes the largest missing method family before building a broad benchmark.
-See the [ordered plan](EXPERIMENT_PLAN.md).
+The selected RCM family now has a checked implementation and setup example.
+Next integrate the method families with shared cost/output conventions before
+running the main spectral comparison. See the [ordered plan](EXPERIMENT_PLAN.md).

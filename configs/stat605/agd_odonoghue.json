@@ -1,0 +1,36 @@
+{
+  "purpose": "source_style_replication_of_odonoghue_candes_2015_quadratic_figures",
+  "source": "O'Donoghue and Candes, Adaptive Restart for Accelerated Gradient Schemes, arXiv:1204.3982v1, Figures 1 and 3",
+  "stated_by_source": "Fig. 1: n=200, q*=mu/L=4.1e-5, t=1/L. Fig. 3: n=500, optimal fixed-interval bound 700, intervals 400 and 700 discussed, no restart, optimal q, both adaptive rules.",
+  "not_stated_by_source": "Matrix generation, spectrum shape, start, iteration count, Fig. 1 list of q values, Fig. 3 condition number. Those below are our declared choices; kappa for Fig. 3 is back-calculated from e*sqrt(8*kappa)=700. Agreement can only be qualitative, not array parity.",
+  "cases": [
+    {
+      "name": "oc_fig1_q_estimates",
+      "problem": {"generate": {"n": 200, "kappa": 24390.243902439026, "L": 1.0, "spectrum": "linear", "seed": 605}},
+      "iterations": 5000,
+      "targets": [1e-4, 1e-8, 1e-12],
+      "methods": [
+        {"label": "q=0", "q_factor": null, "restart": "none"},
+        {"label": "q=qstar_div_10", "q_factor": 0.1, "restart": "none"},
+        {"label": "q=qstar_div_3", "q_factor": 0.3333333333333333, "restart": "none"},
+        {"label": "q=qstar", "q_factor": 1.0, "restart": "none"},
+        {"label": "q=3_qstar", "q_factor": 3.0, "restart": "none"},
+        {"label": "q=10_qstar", "q_factor": 10.0, "restart": "none"}
+      ]
+    },
+    {
+      "name": "oc_fig3_restart",
+      "problem": {"generate": {"n": 500, "kappa": 8289.3, "L": 1.0, "spectrum": "linear", "seed": 605}},
+      "iterations": 4000,
+      "targets": [1e-4, 1e-8, 1e-12],
+      "methods": [
+        {"label": "no_restart_q=0", "q_factor": null, "restart": "none"},
+        {"label": "fixed_400", "q_factor": null, "restart": "fixed", "interval": 400},
+        {"label": "fixed_700", "q_factor": null, "restart": "fixed", "interval": 700},
+        {"label": "optimal_q", "q_factor": 1.0, "restart": "none"},
+        {"label": "function_restart", "q_factor": null, "restart": "function"},
+        {"label": "gradient_restart", "q_factor": null, "restart": "gradient"}
+      ]
+    }
+  ]
+}

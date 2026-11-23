@@ -1,0 +1,190 @@
+{
+  "purpose": "restart_and_mu_sensitivity_on_shared_quadratic_fixtures",
+  "note": "New course sensitivity study, not a source setting. q = q_factor * mu / L with mu=5e-5, L=500 from fixtures/PROVENANCE.json; q_factor null means q=0. eta=1/L=0.002 as in the historical runs. Budget and targets are provisional until the group freezes them.",
+  "cases": [
+    {
+      "name": "quadratic_paper",
+      "problem": {
+        "fixture": "quadratic_paper.npz",
+        "mu": 5e-05,
+        "L": 500.0
+      },
+      "iterations": 100000,
+      "targets": [
+        0.0001,
+        1e-06,
+        1e-08
+      ],
+      "methods": [
+        {
+          "label": "no_restart_q=0",
+          "q_factor": null,
+          "restart": "none"
+        },
+        {
+          "label": "no_restart_q=0.01_qstar",
+          "q_factor": 0.01,
+          "restart": "none"
+        },
+        {
+          "label": "no_restart_q=0.1_qstar",
+          "q_factor": 0.1,
+          "restart": "none"
+        },
+        {
+          "label": "no_restart_q=1_qstar",
+          "q_factor": 1.0,
+          "restart": "none"
+        },
+        {
+          "label": "no_restart_q=10_qstar",
+          "q_factor": 10.0,
+          "restart": "none"
+        },
+        {
+          "label": "no_restart_q=100_qstar",
+          "q_factor": 100.0,
+          "restart": "none"
+        },
+        {
+          "label": "fixed_e_sqrt_8_kappa",
+          "q_factor": null,
+          "restart": "fixed",
+          "interval": "e_sqrt_8_kappa"
+        },
+        {
+          "label": "function_restart_q=0",
+          "q_factor": null,
+          "restart": "function"
+        },
+        {
+          "label": "function_restart_q=0.01_qstar",
+          "q_factor": 0.01,
+          "restart": "function"
+        },
+        {
+          "label": "function_restart_q=1_qstar",
+          "q_factor": 1.0,
+          "restart": "function"
+        },
+        {
+          "label": "function_restart_q=100_qstar",
+          "q_factor": 100.0,
+          "restart": "function"
+        },
+        {
+          "label": "gradient_restart_q=0",
+          "q_factor": null,
+          "restart": "gradient"
+        },
+        {
+          "label": "gradient_restart_q=0.01_qstar",
+          "q_factor": 0.01,
+          "restart": "gradient"
+        },
+        {
+          "label": "gradient_restart_q=1_qstar",
+          "q_factor": 1.0,
+          "restart": "gradient"
+        },
+        {
+          "label": "gradient_restart_q=100_qstar",
+          "q_factor": 100.0,
+          "restart": "gradient"
+        }
+      ]
+    },
+    {
+      "name": "quadratic_log",
+      "problem": {
+        "fixture": "quadratic_log.npz",
+        "mu": 5e-05,
+        "L": 500.0
+      },
+      "iterations": 100000,
+      "targets": [
+        0.0001,
+        1e-06,
+        1e-08
+      ],
+      "methods": [
+        {
+          "label": "no_restart_q=0",
+          "q_factor": null,
+          "restart": "none"
+        },
+        {
+          "label": "no_restart_q=0.01_qstar",
+          "q_factor": 0.01,
+          "restart": "none"
+        },
+        {
+          "label": "no_restart_q=0.1_qstar",
+          "q_factor": 0.1,
+          "restart": "none"
+        },
+        {
+          "label": "no_restart_q=1_qstar",
+          "q_factor": 1.0,
+          "restart": "none"
+        },
+        {
+          "label": "no_restart_q=10_qstar",
+          "q_factor": 10.0,
+          "restart": "none"
+        },
+        {
+          "label": "no_restart_q=100_qstar",
+          "q_factor": 100.0,
+          "restart": "none"
+        },
+        {
+          "label": "fixed_e_sqrt_8_kappa",
+          "q_factor": null,
+          "restart": "fixed",
+          "interval": "e_sqrt_8_kappa"
+        },
+        {
+          "label": "function_restart_q=0",
+          "q_factor": null,
+          "restart": "function"
+        },
+        {
+          "label": "function_restart_q=0.01_qstar",
+          "q_factor": 0.01,
+          "restart": "function"
+        },
+        {
+          "label": "function_restart_q=1_qstar",
+          "q_factor": 1.0,
+          "restart": "function"
+        },
+        {
+          "label": "function_restart_q=100_qstar",
+          "q_factor": 100.0,
+          "restart": "function"
+        },
+        {
+          "label": "gradient_restart_q=0",
+          "q_factor": null,
+          "restart": "gradient"
+        },
+        {
+          "label": "gradient_restart_q=0.01_qstar",
+          "q_factor": 0.01,
+          "restart": "gradient"
+        },
+        {
+          "label": "gradient_restart_q=1_qstar",
+          "q_factor": 1.0,
+          "restart": "gradient"
+        },
+        {
+          "label": "gradient_restart_q=100_qstar",
+          "q_factor": 100.0,
+          "restart": "gradient"
+        }
+      ]
+    }
+  ]
+}

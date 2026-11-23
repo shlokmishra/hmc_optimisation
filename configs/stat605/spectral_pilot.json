@@ -1,0 +1,13 @@
+{
+  "purpose": "grace_pilot",
+  "problem": {"source": "fixture", "dimension": 100, "mu": 0.00005, "L": 500.0, "problem_seed": null, "total_energy": 1.0},
+  "spectra": ["linear", "log", "clustered"],
+  "starts": ["common", "scaled_common", "equal"],
+  "eta": 0.002,
+  "supplied_mu": 0.00005,
+  "cap": 65536,
+  "gradient_budget": 2000,
+  "targets": [0.0001, 0.00000001],
+  "power_diagnostic_steps": 100,
+  "seeds": {"AGD": [null], "AR_AGD": [null], "CAGD": [31001, 31002, 31003, 31004, 31005], "RHGD": [41001, 41002, 41003, 41004, 41005], "B": [null]}
+}

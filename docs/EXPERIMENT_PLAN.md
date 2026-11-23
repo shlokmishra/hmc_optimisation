@@ -7,6 +7,13 @@ Leo (spectral geometry and comparison infrastructure). Confirm the split and
 compute ceilings as a group. Each stream owns checks, results, and report text.
 No jobs were submitted during cleanup or the collaborator handoff.
 
+**November 22 update.** Grace job `20654076` completed the matched 100D pilot
+for the five existing methods. Leo's report uses the saved paths for the
+fixed-energy comparisons, target tables and reset diagnostics. A longer
+comparison would still need a frozen configuration and the other owners'
+checked adapters where applicable.
+[Results and reproduction commands](spectral/REPORT.md)
+
 Quadratics are the core controlled study. Plan one common regularized-logistic
 validation after the quadratic suite is ready; it can be deferred if time is
 insufficient. Existing logistic inputs and preliminary results are already shared.
@@ -48,19 +55,19 @@ small correctness tests. RCM symplectic Euler and RHGD are different integrators
   CAGD, original RHGD, power-reset RHGD, selected RCM, and the new RHGD controllers.
   GD can serve as a simple reference. Do not infer a common guarantee from a
   shared interface.
-- [ ] Make dimension, mu, L, stepsize, seeds and initial modal energy configurable.
+- [x] Make dimension, mu, L, stepsize, seeds and initial modal energy configurable.
   The old spectral runner hard-codes historical settings; do not change its frozen
   global configuration to turn it into a general harness.
-- [ ] Begin with the exact small inputs in `configs/stat605/fixtures/`; their
+- [x] Begin with the exact small inputs in `configs/stat605/fixtures/`; their
   provenance manifest verifies the two retained quadratic problems and synthetic
   regularized-logistic data. No private raw result directory is needed to load them.
-- [ ] Record iteration, distinct and literal gradients, objectives, reset counts,
+- [x] Record iteration, distinct and literal gradients, objectives, reset counts,
   current loss, signed loss, status, and elapsed optimizer time. Pay for rejected
   work and controller checks. Preserve failures and censored targets.
-- [ ] Use the same objective, start, cache policy, and output convention for every
+- [x] Use the same objective, start, cache policy, and output convention for every
   method. Report both iterations and gradients; RHGD usually needs two gradients
   per update. Keep diagnostics outside the timed boundary or charge them uniformly.
-- [ ] Store config, seeds, environment, source hashes, raw traces and summary JSON
+- [x] Store config, seeds, environment, source hashes, raw traces and summary JSON
   in a new output directory. Separate setup, diagnostics, and optimizer time.
 
 Deliverable: one reproducible configuration-driven CPU benchmark, initially on a
@@ -68,18 +75,18 @@ tiny test problem. The current `smoke` command is only an onboarding demonstrati
 
 ## 3. Test the spectral hypothesis
 
-- [ ] Start with linear, log-spaced, and one predeclared clustered spectrum, all
+- [x] Start with linear, log-spaced, and one predeclared clustered spectrum, all
   with d=100, mu=5e-5, L=500. Reuse one orthogonal basis for matched comparisons.
-- [ ] Compare the retained common-start convention with equal initial modal
+- [x] Compare the retained common-start convention with equal initial modal
   energies. Optionally add a declared slow-heavy start. Equal x coordinates do
   not give equal modal energy: E_i=0.5*lambda_i*z_i(0)^2.
-- [ ] First run a short pilot in an allocation to measure cost and detect failures.
-  Freeze target(s), budgets, method parameters, starts and seed list before the
+- [x] Run a short pilot in an allocation to measure cost and detect failures.
+- [ ] Freeze target(s), budgets, method parameters, starts and seed list before the
   main comparison. Record changes made after this pilot.
-- [ ] Use five explicit algorithm seeds initially for randomized methods, and
+- [x] Use five explicit algorithm seeds initially for randomized methods, and
   repeat starts/problem generation only if the group can afford it. Keep these
   sources of variability separate. Timing repetitions are not statistical seeds.
-- [ ] Report current-loss first and sustained targets, reset locations, and modal
+- [x] Report current-loss first and sustained targets, reset locations, and modal
   power contributions on a small diagnostic subset. Use above-floor targets and
   mark misses as censored, not omitted.
 
